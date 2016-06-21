@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 sys.path.append(r'/home/pi/git/quick2wire-python-api/')
 
