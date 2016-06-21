@@ -19,13 +19,14 @@ magnetometer.setDeclination(1,43) # magnetic declination in degrees west (degree
 
 fusion = fusion.Fusion()
 
-for x in range(0, 10):
+for x in range(0, 100):
 	accelerometer_values = accelerometer.getAxes()
 	gyroscope_values = gyroscope.getAxes()
 	magnetometer_values = magnetometer.getAxes()
 	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
-	print("heading="+str(fusion.heading))
-	print("pitch="+str(fusion.pitch))
-	print("roll="+str(fusion.roll))
-	print("")
+	if x % 10 == 0:
+		print("heading="+str(fusion.heading))
+		print("pitch="+str(fusion.pitch))
+		print("roll="+str(fusion.roll))
+		print("")
 	time.sleep(0.1) # TODO: sleep less??
