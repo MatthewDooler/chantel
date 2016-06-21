@@ -36,4 +36,9 @@ for x in range(0, 100):
 		print("pitch="+str(fusion.pitch))
 		print("roll="+str(fusion.roll))
 		print("")
-	time.sleep(0.02) # TODO: sleep less??
+	if elapsed > period:
+		print("running slow (period="+str(period)+", elapsed="+str(elapsed)+")")
+	else:
+		extra = period - elapsed
+		print("running ok (period="+str(period)+", elapsed="+str(elapsed)+", extra="+str(extra)+")")
+		time.sleep(extra)
