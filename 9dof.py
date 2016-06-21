@@ -21,6 +21,18 @@ magnetometer.setDeclination(1,43) # magnetic declination in degrees west (degree
 
 fusion = fusion.Fusion()
 
+calibration_duration = 10 # seconds
+calibration_start_time = dt.datetime.now()
+def stopCalibration():
+	elapsed = fusion.elapsed_seconds(calibration_start_time)
+	if elapsed >= calibration_duration:
+		return True
+	else:
+		return False
+print("Calibrating...")
+fusion.calibrate(magnetometer.getAxes, stopCalibration)
+print("Calibrated!")
+
 frequency = 30 # Hz
 duration = 60*10 # seconds
 period = 1.0 / frequency
