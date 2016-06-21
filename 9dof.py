@@ -31,7 +31,6 @@ for x in range(0, 100):
 	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
 	elapsed = fusion.elapsed_seconds(start_time)
 	if x % 10 == 0:
-		print(elapsed)
 		print("heading="+str(fusion.heading))
 		#print("pitch="+str(fusion.pitch))
 		#print("roll="+str(fusion.roll))
