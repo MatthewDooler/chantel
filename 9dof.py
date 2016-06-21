@@ -29,7 +29,7 @@ for x in range(0, 100):
 	gyroscope_values = gyroscope.getAxes()
 	magnetometer_values = magnetometer.getAxes()
 	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
-	elapsed_seconds = fusion.elapsed_seconds(start_time)
+	elapsed = fusion.elapsed_seconds(start_time)
 	if x % 10 == 0:
 		print(elapsed)
 		print("heading="+str(fusion.heading))
