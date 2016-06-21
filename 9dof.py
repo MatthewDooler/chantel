@@ -31,7 +31,7 @@ def stopCalibration():
 		return False
 print("Calibrating...")
 #fusion.calibrate(magnetometer.getAxes, stopCalibration)
-fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
+#fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
 print("Calibrated with the following magbias:")
 print(fusion.magbias)
 # static:
