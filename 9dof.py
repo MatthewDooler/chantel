@@ -19,4 +19,5 @@ print(accelerometer)
 
 print("gyroscope:")
 gyroscope = i2c_itg3205.i2c_itg3205(0, addr=0x68)
-print(gyroscope)
+gyroscope_axes = gyroscope.getAxes()
+print(gyroscope_axes)
