@@ -59,10 +59,11 @@ for x in range(0, frequency*duration):
 		#print(gyroscope_values)
 		#print(magnetometer_values)
 		degree = 72000
-		print("heading = %.0f°"  % round(fusion.heading*degree, 0))
+		#print("heading = %.0f°" % round(fusion.heading*degree, 0))
 		#print("pitch="+str(fusion.pitch))
 		#print("roll="+str(fusion.roll))
 		#print("")
+		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°" % round(fusion.heading*degree, 0) % round(fusion.pitch*degree, 0) % round(fusion.roll*degree, 0))
 	if elapsed > period:
 		print("running slow (period="+str(period)+", elapsed="+str(elapsed)+")")
 	else:
