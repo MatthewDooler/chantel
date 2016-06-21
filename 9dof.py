@@ -27,4 +27,5 @@ for x in range(0, 10):
 	print("heading="+str(fusion.heading))
 	print("pitch="+str(fusion.pitch))
 	print("roll="+str(fusion.roll))
+	print("")
 	time.sleep(0.1) # TODO: sleep less??
