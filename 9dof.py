@@ -15,3 +15,7 @@ print("accelerometer:")
 accelerometer = i2c_adxl345.i2c_adxl345(0)
 accelerometer.setScale(2)
 print(accelerometer)
+
+print("gyroscope:")
+gyroscope = i2c_itg3205.i2c_itg3205(0)
+print(gyroscope)
