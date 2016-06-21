@@ -20,17 +20,19 @@ magnetometer.setContinuousMode()
 magnetometer.setDeclination(1,43) # magnetic declination in degrees west (degrees, minute)
 
 fusion = fusion.Fusion()
+
 frequency = 50 # Hz
+duration = 60 # seconds
 period = 1.0 / frequency
 
-for x in range(0, 100):
+for x in range(0, frequency*duration):
 	start_time = dt.datetime.now()
 	accelerometer_values = accelerometer.getAxes()
 	gyroscope_values = gyroscope.getAxes()
 	magnetometer_values = magnetometer.getAxes()
 	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
 	elapsed = fusion.elapsed_seconds(start_time)
-	if x % 10 == 0:
+	if x % frequency == 0:
 		print("heading="+str(fusion.heading))
 		#print("pitch="+str(fusion.pitch))
 		#print("roll="+str(fusion.roll))
