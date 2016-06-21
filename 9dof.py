@@ -21,7 +21,7 @@ magnetometer.setDeclination(1,43) # magnetic declination in degrees west (degree
 
 fusion = fusion.Fusion()
 
-frequency = 50 # Hz
+frequency = 25 # Hz
 duration = 120 # seconds
 period = 1.0 / frequency
 
