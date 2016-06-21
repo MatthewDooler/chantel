@@ -32,7 +32,7 @@ def stopCalibration():
 print("Calibrating...")
 fusion.calibrate(magnetometer.getAxes, stopCalibration)
 print("Calibrated with the following magbias:")
-print(magbias)
+print(fusion.magbias)
 
 frequency = 30 # Hz
 duration = 60*10 # seconds
