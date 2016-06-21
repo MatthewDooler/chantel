@@ -13,4 +13,5 @@ print(magnetometer)
 
 print("accelerometer:")
 accelerometer = i2c_adxl345.i2c_adxl345(0)
+accelerometer.setScale(2)
 print(accelerometer)
