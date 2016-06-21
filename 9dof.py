@@ -30,12 +30,18 @@ def stopCalibration():
 	else:
 		return False
 print("Calibrating...")
-fusion.calibrate(magnetometer.getAxes, stopCalibration)
+#fusion.calibrate(magnetometer.getAxes, stopCalibration)
+fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
 print("Calibrated with the following magbias:")
 print(fusion.magbias)
-# (219.42000000000002, -69.91999999999999, -449.41999999999996)
-# (218.5, -70.84, -448.5)
-# (218.5, -70.38, -450.34)
+# static:
+# (219.42, -69.92, -449.42)
+# (218.50, -70.84, -448.50)
+# (218.50, -70.38, -450.34)
+# (217.58, -70.84, -449.88)
+# (219.42, -71.30, -448.96)
+# horrific rotation around all 3 axes:
+# (12.879999999999995, -93.38, -52.900000000000006)
 
 frequency = 30 # Hz
 duration = 60*10 # seconds
