@@ -33,12 +33,12 @@ for x in range(0, 100):
 	if x % 10 == 0:
 		print(elapsed)
 		print("heading="+str(fusion.heading))
-		print("pitch="+str(fusion.pitch))
-		print("roll="+str(fusion.roll))
-		print("")
+		#print("pitch="+str(fusion.pitch))
+		#print("roll="+str(fusion.roll))
+		#print("")
 	if elapsed > period:
 		print("running slow (period="+str(period)+", elapsed="+str(elapsed)+")")
 	else:
 		extra = period - elapsed
-		print("running ok (period="+str(period)+", elapsed="+str(elapsed)+", extra="+str(extra)+")")
+		#print("running ok (period="+str(period)+", elapsed="+str(elapsed)+", extra="+str(extra)+")")
 		time.sleep(extra)
