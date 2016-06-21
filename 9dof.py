@@ -58,7 +58,8 @@ for x in range(0, frequency*duration):
 		#print(accelerometer_values)
 		#print(gyroscope_values)
 		#print(magnetometer_values)
-		print("heading="+str(fusion.heading))
+		degree = 72000
+		print("heading = "+str(fusion.heading*degree)+"°")
 		#print("pitch="+str(fusion.pitch))
 		#print("roll="+str(fusion.roll))
 		#print("")
