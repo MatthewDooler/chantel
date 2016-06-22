@@ -53,7 +53,8 @@ for x in range(0, frequency*duration):
 	gyroscope_values = gyroscope.getAxes()
 	magnetometer_values = magnetometer.getAxes()
 	#fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
-	fusion.update_nomag(accelerometer_values, gyroscope_values)
+	#fusion.update_nomag(accelerometer_values, gyroscope_values)
+	fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 	elapsed = fusion.elapsed_seconds(start_time)
 	if x % frequency == 0:
 		#print(accelerometer_values)
