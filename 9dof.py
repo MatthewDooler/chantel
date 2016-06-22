@@ -3,6 +3,7 @@ import sys
 import datetime as dt
 import time
 import math
+import gc
 
 sys.path.append(r'/home/pi/git/quick2wire-python-api/')
 from i2clibraries import i2c_hmc5883l
@@ -56,6 +57,7 @@ for x in range(0, frequency*duration):
 	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
 	#fusion.update_nomag(accelerometer_values, gyroscope_values)
 	#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
+	gc.collect() # force gc for more consistent performance
 	elapsed = fusion.elapsed_seconds(start_time)
 	if x % frequency == 0:
 		#print(accelerometer_values)
