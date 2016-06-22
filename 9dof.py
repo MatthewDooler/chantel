@@ -61,19 +61,19 @@ for x in range(0, frequency*duration):
 		#print(accelerometer_values)
 		#print(gyroscope_values)
 		#print(magnetometer_values)
-		degree = 1
+		#degree = 1
 		#print("heading = %.0f°" % round(fusion.heading*degree, 0))
 		#print("pitch="+str(fusion.pitch))
 		#print("roll="+str(fusion.roll))
 		#print("")
 		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
-		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°" % (round(fusion.heading*degree, 0), round(fusion.pitch*degree, 0), round(fusion.roll*degree, 0)))
-		accelerationX = accelerometer_values[0] * 3.9;
-		accelerationY = accelerometer_values[1] * 3.9;
-		accelerationZ = accelerometer_values[2] * 3.9;
-		pitch = 180 * math.atan (accelerationX/math.sqrt(accelerationY*accelerationY + accelerationZ*accelerationZ))/math.pi
-		roll = 180 * math.atan (accelerationY/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
-		yaw = 180 * math.atan (accelerationZ/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
+		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°" % (round(fusion.heading, 0), round(fusion.pitch, 0), round(fusion.roll, 0)))
+		#accelerationX = accelerometer_values[0] * 3.9;
+		#accelerationY = accelerometer_values[1] * 3.9;
+		#accelerationZ = accelerometer_values[2] * 3.9;
+		#pitch = 180 * math.atan (accelerationX/math.sqrt(accelerationY*accelerationY + accelerationZ*accelerationZ))/math.pi
+		#roll = 180 * math.atan (accelerationY/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
+		#yaw = 180 * math.atan (accelerationZ/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
 		#print("$ heading = %.0f°, pitch = %.0f°, roll = %.0f°" % (round(yaw, 0), round(pitch, 0), round(roll, 0)))
 	if elapsed > period:
 		print("running slow (period="+str(period)+", elapsed="+str(elapsed)+")")
