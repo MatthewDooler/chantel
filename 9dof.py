@@ -44,7 +44,7 @@ print(fusion.magbias)
 # horrific rotation around all 3 axes:
 # (12.879999999999995, -93.38, -52.900000000000006)
 
-frequency = 30 # Hz
+frequency = 50 # Hz
 duration = 60*10 # seconds
 period = 1.0 / frequency
 
