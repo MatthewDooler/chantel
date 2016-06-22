@@ -109,7 +109,7 @@ class Fusion(object):
         qDot4 = 0.5 * (q1 * gz + q2 * gy - q3 * gx) - self.beta * s4
 
         # Integrate to yield quaternion
-        deltat = self.elapsed_seconds(self.start_time) / 1000000
+        deltat = self.elapsed_seconds(self.start_time)
         self.start_time = dt.datetime.now()
         q1 += qDot1 * deltat
         q2 += qDot2 * deltat
@@ -204,7 +204,7 @@ class Fusion(object):
         qDot4 = 0.5 * (q1 * gz + q2 * gy - q3 * gx) - self.beta * s4
 
         # Integrate to yield quaternion
-        deltat = self.elapsed_seconds(self.start_time) / 1000000
+        deltat = self.elapsed_seconds(self.start_time)
         self.start_time = dt.datetime.now()
         q1 += qDot1 * deltat
         q2 += qDot2 * deltat
