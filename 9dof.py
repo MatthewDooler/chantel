@@ -3,7 +3,6 @@ import sys
 import datetime as dt
 import time
 import math
-import gc
 
 sys.path.append(r'/home/pi/git/quick2wire-python-api/')
 from i2clibraries import i2c_hmc5883l
@@ -77,7 +76,8 @@ for x in range(0, frequency*duration):
 		#yaw = 180 * math.atan (accelerationZ/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
 		#print("$ heading = %.0f°, pitch = %.0f°, roll = %.0f°" % (round(yaw, 0), round(pitch, 0), round(roll, 0)))
 	if elapsed > period:
-		print("running slow (period="+str(period)+", elapsed="+str(elapsed)+")")
+		#print("running slow (period="+str(period)+", elapsed="+str(elapsed)+")")
+		pass
 	else:
 		extra = period - elapsed
 		#print("running ok (period="+str(period)+", elapsed="+str(elapsed)+", extra="+str(extra)+")")
