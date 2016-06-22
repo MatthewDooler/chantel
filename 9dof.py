@@ -61,7 +61,7 @@ for x in range(0, frequency*duration):
 		#print(accelerometer_values)
 		#print(gyroscope_values)
 		#print(magnetometer_values)
-		degree = 72000
+		degree = 1
 		#print("heading = %.0f°" % round(fusion.heading*degree, 0))
 		#print("pitch="+str(fusion.pitch))
 		#print("roll="+str(fusion.roll))
