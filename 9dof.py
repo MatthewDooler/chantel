@@ -5,15 +5,14 @@ import time
 import math
 import argparse
 
+from quadcopterPi.motor import motor
+from quadcopterPi.sensor import sensor
+from quadcopterPi.loggingQ import setupLogger
+
 sys.path.append(r'/home/pi/git/quick2wire-python-api/')
 from i2clibraries import i2c_hmc5883l
 from i2clibraries import i2c_adxl345
 from i2clibraries import i2c_itg3205
-
-sys.path.append(r'/home/pi/git/quadcopterPi/')
-from motor import motor
-from sensor import sensor
-from loggingQ import setupLogger
 
 from fusion import fusion
 
