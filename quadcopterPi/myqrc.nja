@@ -1,0 +1,29 @@
+{
+  "mainFile": "C:/Data/Oscar/Tecnologia/quadcopter/sw/2014.12.17 myQ1/myQ1.py", 
+  "use-tabs": false, 
+  "venv": "", 
+  "relatedProjects": [], 
+  "name": "myQrc", 
+  "license": "GNU General Public License v3", 
+  "url": "", 
+  "pythonPath": "C:/Program Files/python275/pythonw.exe", 
+  "preExecScript": "", 
+  "additional_builtins": [], 
+  "programParams": "", 
+  "indentation": 4, 
+  "PYTHONPATH": "", 
+  "supported-extensions": [
+    ".py", 
+    ".html", 
+    ".jpg", 
+    ".png", 
+    ".ui", 
+    ".css", 
+    ".json", 
+    ".js", 
+    ".ini"
+  ], 
+  "project-type": "", 
+  "postExecScript": "", 
+  "description": "2014.12.17  release candidate"
+}
