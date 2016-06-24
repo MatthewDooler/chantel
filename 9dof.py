@@ -33,6 +33,7 @@ def stopCalibration():
 print("Calibrating...")
 #fusion.calibrate(magnetometer.getAxes, stopCalibration)
 fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
+fusion.roll_when_level = 10.0 # starts rolled at 10 because of fixed sensor slope
 print("Calibrated with the following magbias:")
 print(fusion.magbias)
 # static:
@@ -43,6 +44,7 @@ print(fusion.magbias)
 # (219.42, -71.30, -448.96)
 # horrific rotation around all 3 axes:
 # (12.879999999999995, -93.38, -52.900000000000006)
+
 
 frequency = 70 # Hz
 duration = 60*10 # seconds

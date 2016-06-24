@@ -34,6 +34,8 @@ class Fusion(object):
         self.q = [1.0, 0.0, 0.0, 0.0]       # vector to hold quaternion
         GyroMeasError = radians(40)         # Original code indicates this leads to a 2 sec response time
         self.beta = sqrt(3.0 / 4.0) * GyroMeasError  # compute beta (see README)
+        self.pitch_when_level = 0
+        self.roll_when_level = 0
 
     def calibrate(self, getxyz, stopfunc, waitfunc = None):
         magmax = list(getxyz())             # Initialise max and min lists with current values
@@ -54,12 +56,12 @@ class Fusion(object):
 
     @property
     def pitch(self):
-        return degrees(-asin(2.0 * (self.q[1] * self.q[3] - self.q[0] * self.q[2])))
+        return degrees(-asin(2.0 * (self.q[1] * self.q[3] - self.q[0] * self.q[2]))) - self.pitch_when_level 
 
     @property
     def roll(self):
         return degrees(atan2(2.0 * (self.q[0] * self.q[1] + self.q[2] * self.q[3]),
-            self.q[0] * self.q[0] - self.q[1] * self.q[1] - self.q[2] * self.q[2] + self.q[3] * self.q[3]))
+            self.q[0] * self.q[0] - self.q[1] * self.q[1] - self.q[2] * self.q[2] + self.q[3] * self.q[3])) - self.roll_when_level
 
     def update_nomag(self, accel, gyro):    # 3-tuples (x, y, z) for accel, gyro
         ax, ay, az = accel                  # Units G (but later normalised)
