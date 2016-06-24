@@ -27,6 +27,14 @@ magnetometer.setDeclination(1,43) # magnetic declination in degrees west (degree
 
 fusion = fusion.Fusion()
 
+prop_x_l = motor('prop_x_l', 17, simulation=False)
+prop_x_r = motor('prop_x_r', 21, simulation=False)
+prop_y_l = motor('prop_y_l', 23, simulation=False)
+prop_y_r = motor('prop_y_r', 24, simulation=False)
+for m in motors:
+	m.start()
+	m.setW(0)
+
 calibration_duration = 60 # seconds
 calibration_start_time = dt.datetime.now()
 def stopCalibration():
@@ -86,12 +94,12 @@ for x in range(0, frequency*duration):
 	else:
 		roll_offset = 0
 
-	prop_pitch_l_speed = throttle - pitch_offset + yaw_offset
-	prop_pitch_r_speed = throttle + pitch_offset + yaw_offset
-	prop_roll_l_speed = throttle - roll_offset - yaw_offset
-	prop_roll_r_speed = throttle + roll_offset - yaw_offset
+	prop_x_l_speed = throttle - pitch_offset + yaw_offset
+	prop_x_r_speed = throttle + pitch_offset + yaw_offset
+	prop_y_l_speed = throttle - roll_offset - yaw_offset
+	prop_y_r_speed = throttle + roll_offset - yaw_offset
 	if x % frequency == 0:
-		print("props = %.0f, %.0f, %.0f, %.0f" % (prop_pitch_l_speed, prop_pitch_r_speed, prop_roll_l_speed, prop_roll_r_speed))
+		print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
 	elapsed = fusion.elapsed_seconds(start_time)
 	if x % frequency == 0:
