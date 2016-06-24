@@ -72,7 +72,7 @@ for x in range(0, frequency*duration):
 		#print("")
 		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
 		print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
-		print("heading = %.1f°, pitch = %.1f°, roll = %.1f°, t = %.0fms, f = %.0fHz" % (round(fusion.heading, 1), round(fusion.pitch, 1), round(fusion.roll, 1), elapsed*1000, round(1.0/elapsed, 0)))
+		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(fusion.heading, 0), round(fusion.pitch, 0), round(fusion.roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
 		#accelerationX = accelerometer_values[0] * 3.9;
 		#accelerationY = accelerometer_values[1] * 3.9;
 		#accelerationZ = accelerometer_values[2] * 3.9;
