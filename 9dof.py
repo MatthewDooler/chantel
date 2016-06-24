@@ -69,12 +69,12 @@ for x in range(0, frequency*duration):
 	
 	if pitch < 1:
 		pitch_offset = 5
-	else if pitch > 1:
+	elif pitch > 1:
 		pitch_offset = -5
 
 	if roll < 1:
 		roll_offset = 5
-	else if roll > 1:
+	elif roll > 1:
 		roll_offset = -5
 
 	prop_pitch_l_speed = throttle - pitch_offset + yaw_offset
