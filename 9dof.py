@@ -3,11 +3,17 @@ import sys
 import datetime as dt
 import time
 import math
+import argparse
 
 sys.path.append(r'/home/pi/git/quick2wire-python-api/')
 from i2clibraries import i2c_hmc5883l
 from i2clibraries import i2c_adxl345
 from i2clibraries import i2c_itg3205
+
+sys.path.append(r'/home/pi/git/quadcopterPi/')
+from motor import motor
+from sensor import sensor
+from loggingQ import setupLogger
 
 from fusion import fusion
 
