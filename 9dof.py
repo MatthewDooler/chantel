@@ -58,28 +58,37 @@ for x in range(0, frequency*duration):
 	gyroscope_values = gyroscope.getAxes()
 	magnetometer_values = magnetometer.getAxes()
 	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
+	heading = fusion.heading
+	pitch = fusion.pitch
+	roll = fusion.roll
 	#fusion.update_nomag(accelerometer_values, gyroscope_values)
 	#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
+
+	throttle = 10
+	yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
+	
+	if pitch < 1:
+		pitch_offset = 5
+	else if pitch > 1:
+		pitch_offset = -5
+
+	if roll < 1:
+		roll_offset = 5
+	else if roll > 1:
+		roll_offset = -5
+
+	prop_pitch_l_speed = throttle - pitch_offset + yaw_offset
+	prop_pitch_r_speed = throttle + pitch_offset + yaw_offset
+	prop_roll_l_speed = throttle - roll_offset - yaw_offset
+	prop_roll_r_speed = throttle + roll_offset - yaw_offset
+	if x % frequency == 0:
+		print("props = %.0f, %.0f, %.0f, %.0f" % (prop_pitch_l_speed, prop_pitch_r_speed, prop_roll_l_speed, prop_roll_r_speed))
+
 	elapsed = fusion.elapsed_seconds(start_time)
 	if x % frequency == 0:
-		#print(accelerometer_values)
-		#print(gyroscope_values)
-		#print(magnetometer_values)
-		#degree = 1
-		#print("heading = %.0f°" % round(fusion.heading*degree, 0))
-		#print("pitch="+str(fusion.pitch))
-		#print("roll="+str(fusion.roll))
-		#print("")
 		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
-		print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
-		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(fusion.heading, 0), round(fusion.pitch, 0), round(fusion.roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
-		#accelerationX = accelerometer_values[0] * 3.9;
-		#accelerationY = accelerometer_values[1] * 3.9;
-		#accelerationZ = accelerometer_values[2] * 3.9;
-		#pitch = 180 * math.atan (accelerationX/math.sqrt(accelerationY*accelerationY + accelerationZ*accelerationZ))/math.pi
-		#roll = 180 * math.atan (accelerationY/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
-		#yaw = 180 * math.atan (accelerationZ/math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ))/math.pi
-		#print("$ heading = %.0f°, pitch = %.0f°, roll = %.0f°" % (round(yaw, 0), round(pitch, 0), round(roll, 0)))
+		#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
+		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(heading, 0), round(pitch, 0), round(roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
 	if elapsed < period:
 		extra = period - elapsed
 		time.sleep(extra)
