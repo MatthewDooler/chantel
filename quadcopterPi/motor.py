@@ -77,7 +77,7 @@ class motor(object):
             from RPIO import PWM
             #here just check that library is available
             self.PWM = PWM
-        except (ImportError, strerror):
+        except ImportError as strerror:
             self.simulation = True
             self.logger.error('Error: Motor NOT initiazized. %s', strerror)
 

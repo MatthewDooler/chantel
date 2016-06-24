@@ -94,7 +94,7 @@ class sensor(threading.Thread):
                 self.IMU = MPU6050(address)
                 self.IMU.readOffsets('IMU.cfg')
             self.logger.debug('IMU initiazized...')
-        except (ImportError, strerror):
+        except ImportError as strerror:
             self.simulation = True
             self.logger.error('Error: IMU NOT initiazized. %s', strerror)
         #except:
