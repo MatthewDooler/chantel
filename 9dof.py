@@ -31,9 +31,10 @@ prop_x_l = motor('prop_x_l', 17, simulation=False)
 prop_x_r = motor('prop_x_r', 21, simulation=False)
 prop_y_l = motor('prop_y_l', 23, simulation=False)
 prop_y_r = motor('prop_y_r', 24, simulation=False)
-for m in motors:
-	m.start()
-	m.setW(0)
+props = [prop_x_l, prop_x_r, prop_y_l, prop_y_r]
+for prop in props:
+	prop.start()
+	prop.setW(0)
 
 calibration_duration = 60 # seconds
 calibration_start_time = dt.datetime.now()
