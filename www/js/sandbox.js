@@ -1,36 +1,25 @@
-var scene, camera, renderer;
-var geometry, material, mesh;
+$(function() {
+    var attitude = $.flightIndicator('#attitude', 'attitude', {roll:0, pitch:0, size:800, showBox:false});
+    var heading = $.flightIndicator('#heading', 'heading', {heading:0, size:200, showBox:true});
+    var variometer = $.flightIndicator('#variometer', 'variometer', {vario:-5, showBox:true});
+    var airspeed = $.flightIndicator('#airspeed', 'airspeed', {showBox:true});
+    var altimeter = $.flightIndicator('#altimeter', 'altimeter');
 
-init();
-animate();
-
-function init() {
-
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.z = 1000;
-
-    geometry = new THREE.BoxGeometry( 200, 200, 200 );
-    material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
-
-    mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
-    document.body.appendChild( renderer.domElement );
-
-}
-
-function animate() {
-
-    requestAnimationFrame( animate );
-
-    mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.02;
-
-    renderer.render( scene, camera );
-
-}
+    // Update at 20Hz
+    var increment = 0;
+    setInterval(function() {
+        
+        heading.setHeading(0);
+        attitude.setRoll(0);
+        attitude.setPitch(0); // nose up/down
+        
+        // vertical speed
+        variometer.setVario(0);
+        
+        airspeed.setAirSpeed(0);
+        
+        altimeter.setAltitude(223);
+        altimeter.setPressure(1000);
+        increment++;
+    }, 50);
+});

@@ -1,3 +1,29 @@
 html, body {
 	margin: 0;
+	background-image: url('../img/footer_lodyas.png');
+	background-color: #363636;
+}
+
+.header, .footer {
+	text-align: center;
+	color: #bbbbbb;
+	font-family: sans-serif;
+	font-weight: bold;
+	background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(20, 20, 20, 0.3), rgba(0, 0, 0, 0));
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	text-transform: uppercase;
+}
+
+.header {
+	top: 0px;
+	font-size: 12px;
+	padding: 8px;
+}
+
+.footer {
+	bottom: 0px;
+	font-size: 11px;
+	padding: 7px;
 }
