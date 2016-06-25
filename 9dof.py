@@ -80,7 +80,7 @@ for x in range(0, frequency*duration):
 		#fusion.update_nomag(accelerometer_values, gyroscope_values)
 		#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 
-		throttle = 8
+		throttle = 15
 		yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 		
 		if pitch <= -1:
@@ -101,10 +101,10 @@ for x in range(0, frequency*duration):
 		prop_x_r_speed = throttle + pitch_offset + yaw_offset
 		prop_y_l_speed = throttle - roll_offset - yaw_offset
 		prop_y_r_speed = throttle + roll_offset - yaw_offset
-		#prop_x_l.setW(prop_x_l_speed)
-		#prop_x_r.setW(prop_x_r_speed)
-		#prop_y_l.setW(prop_y_l_speed)
-		#prop_y_r.setW(prop_y_r_speed)
+		prop_x_l.setW(prop_x_l_speed)
+		prop_x_r.setW(prop_x_r_speed)
+		prop_y_l.setW(prop_y_l_speed)
+		prop_y_r.setW(prop_y_r_speed)
 		if x % frequency == 0:
 			print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
