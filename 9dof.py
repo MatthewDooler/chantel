@@ -65,7 +65,7 @@ print(fusion.magbias)
 
 frequency = 70 # Hz
 duration = 60*10 # seconds
-min_sensor_reads = 200
+min_sensor_reads = 300
 period = 1.0 / frequency
 
 def get_attitude():
