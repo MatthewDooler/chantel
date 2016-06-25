@@ -65,58 +65,75 @@ print(fusion.magbias)
 
 frequency = 70 # Hz
 duration = 60*10 # seconds
+min_sensor_reads = 200
 period = 1.0 / frequency
+heading = 0
+pitch = 0
+roll = 0
 
-for x in range(0, frequency*duration):
+def read_sensors():
 	try:
-		start_time = dt.datetime.now()
 		accelerometer_values = accelerometer.getAxes()
 		gyroscope_values = gyroscope.getDegPerSecAxes()
-		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
 		magnetometer_values = magnetometer.getAxes()
 		fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
 		heading = fusion.heading
 		pitch = fusion.pitch
 		roll = fusion.roll
-		#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
-		#fusion.update_nomag(accelerometer_values, gyroscope_values)
-		#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
-
-		throttle = 95
-		yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
-		
-		if pitch <= -1:
-			pitch_offset = 2
-		elif pitch >= 1:
-			pitch_offset = -2
-		else:
-			pitch_offset = 0
-
-		if roll <= -1:
-			roll_offset = 2
-		elif roll >= 1:
-			roll_offset = -2
-		else:
-			roll_offset = 0
-
-		prop_x_l_speed = throttle - pitch_offset + yaw_offset
-		prop_x_r_speed = throttle + pitch_offset + yaw_offset
-		prop_y_l_speed = throttle - roll_offset - yaw_offset
-		prop_y_r_speed = throttle + roll_offset - yaw_offset
-		prop_x_l.setW(prop_x_l_speed)
-		prop_x_r.setW(prop_x_r_speed)
-		prop_y_l.setW(prop_y_l_speed)
-		prop_y_r.setW(prop_y_r_speed)
-		if x % frequency == 0:
-			print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
-
-		elapsed = fusion.elapsed_seconds(start_time)
-		if x % frequency == 0:
-			#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
-			#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
-			print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(heading, 0), round(pitch, 0), round(roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
-		if elapsed < period:
-			extra = period - elapsed
-			time.sleep(extra)
 	except OSError as e:
+		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
 		print(e)
+
+print("Reading initial sensor data...")
+for i in range(0, min_sensor_reads):
+	start_time = dt.datetime.now()
+	read_sensors()
+	elapsed = fusion.elapsed_seconds(start_time)
+	if elapsed < period:
+		extra = period - elapsed
+		time.sleep(extra)
+print("Have sufficient sensor data")
+
+for i in range(0, frequency*duration):
+	start_time = dt.datetime.now()
+	read_sensors()
+	#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
+	#fusion.update_nomag(accelerometer_values, gyroscope_values)
+	#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
+
+	throttle = 95
+	yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
+	
+	if pitch <= -1:
+		pitch_offset = 2
+	elif pitch >= 1:
+		pitch_offset = -2
+	else:
+		pitch_offset = 0
+
+	if roll <= -1:
+		roll_offset = 2
+	elif roll >= 1:
+		roll_offset = -2
+	else:
+		roll_offset = 0
+
+	prop_x_l_speed = throttle - pitch_offset + yaw_offset
+	prop_x_r_speed = throttle + pitch_offset + yaw_offset
+	prop_y_l_speed = throttle - roll_offset - yaw_offset
+	prop_y_r_speed = throttle + roll_offset - yaw_offset
+	prop_x_l.setW(prop_x_l_speed)
+	prop_x_r.setW(prop_x_r_speed)
+	prop_y_l.setW(prop_y_l_speed)
+	prop_y_r.setW(prop_y_r_speed)
+	#if x % frequency == 0:
+	#	print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
+
+	elapsed = fusion.elapsed_seconds(start_time)
+	if i % frequency == 0:
+		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
+		#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
+		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(heading, 0), round(pitch, 0), round(roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
+	if elapsed < period:
+		extra = period - elapsed
+		time.sleep(extra)
