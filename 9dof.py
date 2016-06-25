@@ -48,8 +48,8 @@ def stopCalibration():
 print("Calibrating...")
 #fusion.calibrate(magnetometer.getAxes, stopCalibration)
 fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
-fusion.pitch_when_level = 0.85
-fusion.roll_when_level = 9.95 # starts rolled because of sensor slope
+fusion.pitch_when_level = 0
+fusion.roll_when_level = 4 # starts rolled because of sensor slope
 # TODO: might be better/easier to do this calibration on the raw data - see how this goes first
 print("Calibrated with the following magbias:")
 print(fusion.magbias)
