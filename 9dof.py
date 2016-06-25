@@ -27,10 +27,10 @@ magnetometer.setDeclination(1,43) # magnetic declination in degrees west (degree
 
 fusion = fusion.Fusion()
 
-prop_x_l = motor('prop_x_l', 17, simulation=False)
+prop_x_l = motor('prop_x_l', 23, simulation=False)
 prop_x_r = motor('prop_x_r', 21, simulation=False)
-prop_y_l = motor('prop_y_l', 23, simulation=False)
-prop_y_r = motor('prop_y_r', 24, simulation=False)
+prop_y_l = motor('prop_y_l', 24, simulation=False)
+prop_y_r = motor('prop_y_r', 17, simulation=False)
 props = [prop_x_l, prop_x_r, prop_y_l, prop_y_r]
 for prop in props:
 	prop.start()
@@ -70,7 +70,7 @@ for x in range(0, frequency*duration):
 	try:
 		start_time = dt.datetime.now()
 		accelerometer_values = accelerometer.getAxes()
-		gyroscope_values = gyroscope.getAxes() # TODO: this can throw: OSError: [Errno 5] Input/output error
+		gyroscope_values = gyroscope.getAxes()
 		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
 		magnetometer_values = magnetometer.getAxes()
 		fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
@@ -80,20 +80,20 @@ for x in range(0, frequency*duration):
 		#fusion.update_nomag(accelerometer_values, gyroscope_values)
 		#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 
-		throttle = 10
+		throttle = 8
 		yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 		
 		if pitch <= -1:
-			pitch_offset = 5
+			pitch_offset = 2
 		elif pitch >= 1:
-			pitch_offset = -5
+			pitch_offset = -2
 		else:
 			pitch_offset = 0
 
 		if roll <= -1:
-			roll_offset = 5
+			roll_offset = 2
 		elif roll >= 1:
-			roll_offset = -5
+			roll_offset = -2
 		else:
 			roll_offset = 0
 
@@ -101,10 +101,10 @@ for x in range(0, frequency*duration):
 		prop_x_r_speed = throttle + pitch_offset + yaw_offset
 		prop_y_l_speed = throttle - roll_offset - yaw_offset
 		prop_y_r_speed = throttle + roll_offset - yaw_offset
-		#prop_x_l.setW(prop_x_l_speed)
-		#prop_x_r.setW(prop_x_r_speed)
-		#prop_y_l.setW(prop_y_l_speed)
-		#prop_y_r.setW(prop_y_r_speed)
+		prop_x_l.setW(prop_x_l_speed)
+		prop_x_r.setW(prop_x_r_speed)
+		prop_y_l.setW(prop_y_l_speed)
+		prop_y_r.setW(prop_y_r_speed)
 		if x % frequency == 0:
 			print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
