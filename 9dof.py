@@ -67,36 +67,31 @@ frequency = 70 # Hz
 duration = 60*10 # seconds
 min_sensor_reads = 200
 period = 1.0 / frequency
-heading = 0
-pitch = 0
-roll = 0
 
-def read_sensors():
+def get_attitude():
 	try:
 		accelerometer_values = accelerometer.getAxes()
 		gyroscope_values = gyroscope.getDegPerSecAxes()
 		magnetometer_values = magnetometer.getAxes()
 		fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
-		heading = fusion.heading
-		pitch = fusion.pitch
-		roll = fusion.roll
+		return (fusion.heading, fusion.pitch, fusion.roll)
 	except OSError as e:
 		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
 		print(e)
 
-print("Reading initial sensor data...")
+print("Ingesting sensor data into fusion algorithm...")
 for i in range(0, min_sensor_reads):
 	start_time = dt.datetime.now()
-	read_sensors()
+	get_attitude()
 	elapsed = fusion.elapsed_seconds(start_time)
 	if elapsed < period:
 		extra = period - elapsed
 		time.sleep(extra)
-print("Have sufficient sensor data")
+print("Done")
 
 for i in range(0, frequency*duration):
 	start_time = dt.datetime.now()
-	read_sensors()
+	(heading, pitch, roll) = get_attitude()
 	#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
 	#fusion.update_nomag(accelerometer_values, gyroscope_values)
 	#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
