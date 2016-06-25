@@ -71,7 +71,7 @@ for x in range(0, frequency*duration):
 	try:
 		start_time = dt.datetime.now()
 		accelerometer_values = accelerometer.getAxes()
-		gyroscope_values = gyroscope.getAxes()
+		gyroscope_values = gyroscope.getDegPerSecAxes()
 		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
 		magnetometer_values = magnetometer.getAxes()
 		fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
