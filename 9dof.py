@@ -35,6 +35,7 @@ props = [prop_x_l, prop_x_r, prop_y_l, prop_y_r]
 for prop in props:
 	prop.start()
 	prop.setW(0)
+time.sleep(1)
 
 calibration_duration = 60 # seconds
 calibration_start_time = dt.datetime.now()
