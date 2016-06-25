@@ -67,50 +67,54 @@ duration = 60*10 # seconds
 period = 1.0 / frequency
 
 for x in range(0, frequency*duration):
-	start_time = dt.datetime.now()
-	accelerometer_values = accelerometer.getAxes()
-	gyroscope_values = gyroscope.getAxes()
-	magnetometer_values = magnetometer.getAxes()
-	fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
-	heading = fusion.heading
-	pitch = fusion.pitch
-	roll = fusion.roll
-	#fusion.update_nomag(accelerometer_values, gyroscope_values)
-	#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
+	try:
+		start_time = dt.datetime.now()
+		accelerometer_values = accelerometer.getAxes()
+		gyroscope_values = gyroscope.getAxes() # TODO: this can throw: OSError: [Errno 5] Input/output error
+		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
+		magnetometer_values = magnetometer.getAxes()
+		fusion.update(accelerometer_values, gyroscope_values, magnetometer_values)
+		heading = fusion.heading
+		pitch = fusion.pitch
+		roll = fusion.roll
+		#fusion.update_nomag(accelerometer_values, gyroscope_values)
+		#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 
-	throttle = 10
-	yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
-	
-	if pitch <= -1:
-		pitch_offset = 5
-	elif pitch >= 1:
-		pitch_offset = -5
-	else:
-		pitch_offset = 0
+		throttle = 10
+		yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
+		
+		if pitch <= -1:
+			pitch_offset = 5
+		elif pitch >= 1:
+			pitch_offset = -5
+		else:
+			pitch_offset = 0
 
-	if roll <= -1:
-		roll_offset = 5
-	elif roll >= 1:
-		roll_offset = -5
-	else:
-		roll_offset = 0
+		if roll <= -1:
+			roll_offset = 5
+		elif roll >= 1:
+			roll_offset = -5
+		else:
+			roll_offset = 0
 
-	prop_x_l_speed = throttle - pitch_offset + yaw_offset
-	prop_x_r_speed = throttle + pitch_offset + yaw_offset
-	prop_y_l_speed = throttle - roll_offset - yaw_offset
-	prop_y_r_speed = throttle + roll_offset - yaw_offset
-	#prop_x_l.setW(prop_x_l_speed)
-	#prop_x_r.setW(prop_x_r_speed)
-	#prop_y_l.setW(prop_y_l_speed)
-	#prop_y_r.setW(prop_y_r_speed)
-	if x % frequency == 0:
-		print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
+		prop_x_l_speed = throttle - pitch_offset + yaw_offset
+		prop_x_r_speed = throttle + pitch_offset + yaw_offset
+		prop_y_l_speed = throttle - roll_offset - yaw_offset
+		prop_y_r_speed = throttle + roll_offset - yaw_offset
+		#prop_x_l.setW(prop_x_l_speed)
+		#prop_x_r.setW(prop_x_r_speed)
+		#prop_y_l.setW(prop_y_l_speed)
+		#prop_y_r.setW(prop_y_r_speed)
+		if x % frequency == 0:
+			print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
-	elapsed = fusion.elapsed_seconds(start_time)
-	if x % frequency == 0:
-		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
-		#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
-		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(heading, 0), round(pitch, 0), round(roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
-	if elapsed < period:
-		extra = period - elapsed
-		time.sleep(extra)
+		elapsed = fusion.elapsed_seconds(start_time)
+		if x % frequency == 0:
+			#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
+			#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
+			print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(heading, 0), round(pitch, 0), round(roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
+		if elapsed < period:
+			extra = period - elapsed
+			time.sleep(extra)
+	except OSError as e:
+		print(e)
