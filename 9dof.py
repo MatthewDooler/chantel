@@ -78,7 +78,7 @@ for x in range(0, frequency*duration):
 		heading = fusion.heading
 		pitch = fusion.pitch
 		roll = fusion.roll
-		print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
+		#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
 		#fusion.update_nomag(accelerometer_values, gyroscope_values)
 		#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 
