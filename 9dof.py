@@ -81,7 +81,7 @@ for x in range(0, frequency*duration):
 		#fusion.update_nomag(accelerometer_values, gyroscope_values)
 		#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 
-		throttle = 45
+		throttle = 55
 		yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 		
 		if pitch <= -1:
