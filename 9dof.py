@@ -101,7 +101,7 @@ for x in range(0, frequency*duration):
 	prop_y_r_speed = throttle + roll_offset - yaw_offset
 	#prop_x_l.setW(prop_x_l_speed)
 	#prop_x_r.setW(prop_x_r_speed)
-	prop_y_l.setW(10)
+	#prop_y_l.setW(prop_y_l_speed)
 	#prop_y_r.setW(prop_y_r_speed)
 	if x % frequency == 0:
 		print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
