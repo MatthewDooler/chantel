@@ -81,13 +81,14 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 	#	self.connected = False
 
 	def worker_start(self):
+		timeout = 10 # seconds
 		while self.connected:
 			try:
-				message = self.pending_writes.get(True, 10)
+				blocking = True
+				message = self.pending_writes.get(blocking, timeout)
 				self.sendMessage(message)
 			except queue.Empty:
 				pass
-		print("StatReporter worker died")
 
 	def sendMessageAsync(self, message):
 		self.pending_writes.put(message)
