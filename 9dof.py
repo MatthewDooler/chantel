@@ -66,6 +66,27 @@ print(fusion.magbias)
 # (12.879999999999995, -93.38, -52.900000000000006)
 
 
+clients = []
+class StatReporter(WebSocket): # TODO: this can go in another file
+
+    def handleMessage(self):
+        pass
+
+    def handleConnected(self):
+        print(self.address, 'connected')
+        clients.append(self)
+
+    def handleClose(self):
+        print(self.address, 'closed')
+        clients.remove(self)
+
+print("Starting websocket server...")
+server = SimpleWebSocketServer('', 8080, StatReporter)
+wsthread = Thread(target = server.serveforever, args = ())
+wsthread.start()
+print("Done")
+
+
 frequency = 70 # Hz
 duration = 60*10 # seconds
 min_sensor_reads = 300
@@ -81,6 +102,7 @@ def get_attitude():
 	except OSError as e:
 		# TODO: handle exceptions in general.. don't want to crash on an unexpected exception
 		print(e)
+		return None
 
 print("Ingesting sensor data into fusion algorithm...")
 for i in range(0, min_sensor_reads):
@@ -92,12 +114,12 @@ for i in range(0, min_sensor_reads):
 		time.sleep(extra)
 print("Done")
 
-for i in range(0, frequency*duration):
+while True:
 	start_time = dt.datetime.now()
-	(heading, pitch, roll) = get_attitude()
+	attitude = get_attitude()
+	if attitude is not None:
+		(heading, pitch, roll) = attitude
 	#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
-	#fusion.update_nomag(accelerometer_values, gyroscope_values)
-	#fusion.update(accelerometer_values, (0,0,0), magnetometer_values)
 
 	throttle = 10
 	yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
@@ -127,6 +149,15 @@ for i in range(0, frequency*duration):
 	#if x % frequency == 0:
 	#	print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
+	# TODO: maybe only report metrics at 10Hz or something
+	for client in clients:
+		message = {
+			'heading': heading,
+			'pitch': pitch,
+			'roll': roll
+		}
+		client.sendMessage(json.dumps(message))
+
 	elapsed = fusion.elapsed_seconds(start_time)
 	if i % frequency == 0:
 		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
@@ -135,3 +166,5 @@ for i in range(0, frequency*duration):
 	if elapsed < period:
 		extra = period - elapsed
 		time.sleep(extra)
+
+wsthread.join()
