@@ -6,7 +6,7 @@ import math
 import argparse
 from threading import Thread
 import json
-import Queue
+import queue
 
 from quadcopterPi.motor import motor
 from quadcopterPi.sensor import sensor
@@ -77,7 +77,7 @@ print(fusion.magbias)
 clients = []
 class StatReporter(WebSocket): # TODO: this can go in another file
 	def __init__(self):
-		self.pending_writes = []
+		self.pending_writes = queue.Queue()
 		self.connected = False
 
 	def worker_start(self):
@@ -85,7 +85,7 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 			try:
 				message = self.pending_writes.get(True, 10)
 				self.sendMessage(message)
-			except Queue.Empty:
+			except queue.Empty:
 				pass
 		print("StatReporter worker died")
 
