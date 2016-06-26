@@ -185,7 +185,11 @@ while True:
 			message = {
 				'heading': heading,
 				'pitch': pitch,
-				'roll': roll
+				'roll': roll,
+				'cam_image_uri': 'img/8FnqQTs.jpg',
+				'cam_image_heading': -140,
+				'cam_image_pitch': 0,
+				'cam_image_roll': 0
 			}
 			client.sendMessageAsync(json.dumps(message))
 
