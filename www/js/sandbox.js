@@ -22,4 +22,38 @@ $(function() {
         altimeter.setPressure(1000);
         increment++;
     }, 50);
+
+    // var sock = new SockJS('ws://127.0.0.1:8080');
+    // sock.onopen = function() {
+    //     console.log('open');
+    // };
+    // sock.onmessage = function(e) {
+    //     console.log('message', e.data);
+    // };
+    // sock.onclose = function() {
+    //     console.log('close');
+    // };
+
+    // sock.send('test');
+    // sock.close();
+
+    sock = new WebSocket("ws://localhost:8080/");
+    // sock.send(message);
+    // sock.close();
+    sock.onopen = function(evt) {
+        console.log('open');
+    };
+    sock.onclose = function(evt) {
+        console.log("close\n");
+    };
+    sock.onmessage = function(evt) {
+        console.log("message: " + evt.data + '\n');
+    };
+    sock.onerror = function(evt) {
+        console.log('error: ' + evt.data + '\n');
+        sock.close();
+    };
 });
+
+
+

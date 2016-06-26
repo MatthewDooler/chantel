@@ -16,8 +16,13 @@ from i2clibraries import i2c_adxl345
 from i2clibraries import i2c_itg3205
 
 from fusion import fusion
-
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
+
+# Config
+WS_SERVER_PORT = 8080
+PITCH_WHEN_LEVEL = 0
+ROLL_WHEN_LEVEL = 4
+MAGBIAS = (12.879999999999995, -93.38, -52.900000000000006)
 
 accelerometer = i2c_adxl345.i2c_adxl345(0)
 accelerometer.setScale(2)
@@ -50,9 +55,9 @@ def stopCalibration():
 		return False
 print("Calibrating...")
 #fusion.calibrate(magnetometer.getAxes, stopCalibration)
-fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
-fusion.pitch_when_level = 0
-fusion.roll_when_level = 4 # starts rolled because of sensor slope
+fusion.magbias = MAGBIAS
+fusion.pitch_when_level = PITCH_WHEN_LEVEL
+fusion.roll_when_level = ROLL_WHEN_LEVEL
 # TODO: might be better/easier to do this calibration on the raw data - see how this goes first
 print("Calibrated with the following magbias:")
 print(fusion.magbias)
@@ -81,7 +86,7 @@ class StatReporter(WebSocket): # TODO: this can go in another file
         clients.remove(self)
 
 print("Starting websocket server...")
-server = SimpleWebSocketServer('', 8080, StatReporter)
+server = SimpleWebSocketServer('', WS_SERVER_PORT, StatReporter)
 wsthread = Thread(target = server.serveforever, args = ())
 wsthread.start()
 print("Done")
