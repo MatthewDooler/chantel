@@ -37,7 +37,7 @@ $(function() {
     // sock.send('test');
     // sock.close();
 
-    sock = new WebSocket("ws://localhost:8080/");
+    sock = new WebSocket("ws://fraybentos.heart:8080/");
     // sock.send(message);
     // sock.close();
     sock.onopen = function(evt) {
