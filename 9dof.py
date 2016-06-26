@@ -76,9 +76,9 @@ print(fusion.magbias)
 
 clients = []
 class StatReporter(WebSocket): # TODO: this can go in another file
-	def __init__(self):
-		self.pending_writes = queue.Queue()
-		self.connected = False
+	#def __init__(self):
+	#	self.pending_writes = queue.Queue()
+	#	self.connected = False
 
 	def worker_start(self):
 		while self.connected:
@@ -97,6 +97,7 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 
 	def handleConnected(self):
 		print(self.address, 'connected')
+		self.pending_writes = queue.Queue()
 		self.connected = True
 		self.worker = threading.Thread(target=self.worker_start)
 		self.worker.daemon = True
