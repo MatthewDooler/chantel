@@ -6,6 +6,7 @@ import math
 import argparse
 from threading import Thread
 import json
+import Queue
 
 from quadcopterPi.motor import motor
 from quadcopterPi.sensor import sensor
@@ -75,21 +76,42 @@ print(fusion.magbias)
 
 clients = []
 class StatReporter(WebSocket): # TODO: this can go in another file
+	def __init__(self):
+		self.pending_writes = []
+		self.connected = False
+
+	def worker_start(self):
+        while self.connected:
+        	try:
+	        	message = self.pending_writes.get(True, 10)
+	        	self.sendMessage(message)
+        	except Queue.Empty:
+        		pass
+		print("StatReporter worker died")
+
+	def sendMessageAsync(self, message):
+		self.pending_writes.put(message)
 
     def handleMessage(self):
         pass
 
     def handleConnected(self):
         print(self.address, 'connected')
+        self.connected = True
+		self.worker = threading.Thread(target=self.worker_start)
+        self.worker.daemon = True
+        self.worker.start()
         clients.append(self)
 
     def handleClose(self):
         print(self.address, 'closed')
+        self.connected = False
         clients.remove(self)
 
 print("Starting websocket server...")
 server = SimpleWebSocketServer('', WS_SERVER_PORT, StatReporter)
 wsthread = Thread(target = server.serveforever, args = ())
+wsthread.daemon = True
 wsthread.start()
 print("Done")
 
@@ -163,7 +185,7 @@ while True:
 				'pitch': pitch,
 				'roll': roll
 			}
-			client.sendMessage(json.dumps(message))
+			client.sendMessageAsync(json.dumps(message))
 
 	elapsed = fusion.elapsed_seconds(start_time)
 	if i % sensor_read_frequency == 0:
