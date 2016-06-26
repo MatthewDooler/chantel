@@ -1,3 +1,5 @@
+WS_SERVER_PORT = 8081
+
 $(function() {
     
     var connecting = false
@@ -13,7 +15,7 @@ $(function() {
         if(!connected && !connecting) {
             connecting = true
             console.log("connecting")
-            sock = new WebSocket("ws://fraybentos.heart:8080/");
+            sock = new WebSocket("ws://fraybentos.heart:8081/");
             // sock.send(message);
             // sock.close();
             sock.onopen = function(evt) {

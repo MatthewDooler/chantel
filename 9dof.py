@@ -20,7 +20,7 @@ from fusion import fusion
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 
 # Config
-WS_SERVER_PORT = 8080
+WS_SERVER_PORT = 8081
 PITCH_WHEN_LEVEL = 0
 ROLL_WHEN_LEVEL = 4
 MAGBIAS = (12.879999999999995, -93.38, -52.900000000000006)
