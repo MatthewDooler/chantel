@@ -119,13 +119,14 @@ for i in range(0, MIN_SENSOR_READS):
 		time.sleep(extra)
 print("Done")
 
+i = 0
 while True:
 	start_time = dt.datetime.now()
 	attitude = get_attitude()
 	if attitude is not None:
 		(heading, pitch, roll) = attitude
 	#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
-	print("t = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, round(heading, 0), round(pitch, 0), round(roll, 0)))
+	#print("t = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, round(heading, 0), round(pitch, 0), round(roll, 0)))
 
 	throttle = 10
 	yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
@@ -172,5 +173,6 @@ while True:
 	if elapsed < sensor_read_period:
 		extra = sensor_read_period - elapsed
 		time.sleep(extra)
+	i = i + 1
 
 wsthread.join()
