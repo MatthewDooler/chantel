@@ -81,7 +81,7 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 	#	self.connected = False
 
 	def worker_start(self):
-		timeout = 10 # seconds
+		timeout = 30 # seconds
 		while self.connected:
 			try:
 				blocking = True
