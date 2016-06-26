@@ -10,22 +10,31 @@
   </head>
   <body>
   	<div class="header">Chantel UAV</div>
-	<table style="width: 100%;">
-		<tr>
-			<td style="text-align: center;"><span id="attitude"></span></td>
-			<td style="text-align: right;">
-				<span id="heading"></span><br />
-				<span id="variometer"></span><br />
-				<span id="airspeed"></span><br />
-				<span id="altimeter"></span>
-			</td>
-		</tr>
-	</table>
+  	<div style="text-align: center; margin-top: 50px;">
+  		<span id="cam"></span>
+		<table style="margin: 0px auto;">
+			<tr>
+				<td style="text-align: right;">
+					<div><span id="attitude"></span></div>
+				</td>
+				<td style="text-align: left;">
+					<div>
+						<span id="heading"></span>
+						<span id="variometer"></span>
+					</div>
+					<div>
+						<span id="airspeed"></span>
+						<span id="altimeter"></span>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<div class="footer"><span id="connection-state" class="disconnected">Not connected</span></div>
 
 	<script src="js/sockjs.min.js"></script>
   	<script src="js/jquery-3.0.0.min.js"></script>
-	<script src="js/jquery.flightindicators.min.js"></script>
+	<script src="js/jquery.flightindicators.js"></script>
   	<!--<script src="js/three.min.js"></script>-->
   	<script src="js/sandbox.js"></script>
   </body>

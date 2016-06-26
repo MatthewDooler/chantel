@@ -8,7 +8,9 @@ $(function() {
     
     var connecting = false
     var connected = false
-    var attitude = $.flightIndicator('#attitude', 'attitude', {roll:0, pitch:0, size:800, showBox:false});
+    var cam = $.flightIndicator('#cam', 'cam', {roll:0, pitch:0, heading:0, width:600, height:300, showBox:false});
+    $('#cam').find('div.instrument').css({height : 350, width : 800});
+    var attitude = $.flightIndicator('#attitude', 'attitude', {roll:0, pitch:0, size:418, showBox:true});
     var heading = $.flightIndicator('#heading', 'heading', {heading:0, size:200, showBox:true});
     var variometer = $.flightIndicator('#variometer', 'variometer', {vario:-5, showBox:true});
     var airspeed = $.flightIndicator('#airspeed', 'airspeed', {showBox:true});
@@ -38,12 +40,20 @@ $(function() {
                 message = JSON.parse(evt.data);
 
                 headingValue = message.heading;
-                pitchValue = message.pitch;
-                rollValue = -message.roll;
+                pitchValue = message.roll;
+                rollValue = -message.pitch;
+                camImageUri = "img/8FnqQTs.jpg"
+
+                cam.setCamHeading(headingValue);
+                cam.setCamRoll(rollValue);
+                cam.setCamPitch(pitchValue);
+
+                // TODO: only call when we actually want to update the image (otherwise it will be too much traffic)
+                cam.setCamImage(message.cam_image_pitch, message.cam_image_roll, message.cam_image_heading, message.cam_image_uri);
 
                 heading.setHeading(headingValue);
                 attitude.setRoll(pitchValue);
-                attitude.setPitch(rollValue);
+                attitude.setPitch(pitchValue);
 
                 variometer.setVario(0); // vertical speed
                 airspeed.setAirSpeed(0);

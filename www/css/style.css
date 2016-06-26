@@ -35,3 +35,18 @@ html, body {
 .disconnected {
 	color: red;
 }
+
+.instrument.cam {
+	border: 1px solid #666666;
+	border-radius: 10px;
+	background-image: url('../img/stardust.png');
+}
+
+.instrument.cam .box.camimg {
+	height: 1000px !important;
+	width: auto !important;
+}
+
+.instrument.cam .ball {
+	opacity: 0.6;
+}
