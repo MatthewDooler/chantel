@@ -99,7 +99,7 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 		print(self.address, 'connected')
 		self.pending_writes = queue.Queue()
 		self.connected = True
-		self.worker = threading.Thread(target=self.worker_start)
+		self.worker = Thread(target=self.worker_start)
 		self.worker.daemon = True
 		self.worker.start()
 		clients.append(self)
