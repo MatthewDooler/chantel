@@ -6,36 +6,22 @@ $(function() {
     var altimeter = $.flightIndicator('#altimeter', 'altimeter');
 
     // Update at 20Hz
-    var increment = 0;
-    setInterval(function() {
+    // var increment = 0;
+    // setInterval(function() {
         
-        heading.setHeading(0);
-        attitude.setRoll(0);
-        attitude.setPitch(0); // nose up/down
+    //     heading.setHeading(0);
+    //     attitude.setRoll(0);
+    //     attitude.setPitch(0); // nose up/down
         
-        // vertical speed
-        variometer.setVario(0);
+    //     // vertical speed
+    //     variometer.setVario(0);
         
-        airspeed.setAirSpeed(0);
+    //     airspeed.setAirSpeed(0);
         
-        altimeter.setAltitude(223);
-        altimeter.setPressure(1000);
-        increment++;
-    }, 50);
-
-    // var sock = new SockJS('ws://127.0.0.1:8080');
-    // sock.onopen = function() {
-    //     console.log('open');
-    // };
-    // sock.onmessage = function(e) {
-    //     console.log('message', e.data);
-    // };
-    // sock.onclose = function() {
-    //     console.log('close');
-    // };
-
-    // sock.send('test');
-    // sock.close();
+    //     altimeter.setAltitude(223);
+    //     altimeter.setPressure(1000);
+    //     increment++;
+    // }, 50);
 
     sock = new WebSocket("ws://fraybentos.heart:8080/");
     // sock.send(message);
@@ -47,7 +33,15 @@ $(function() {
         console.log("close\n");
     };
     sock.onmessage = function(evt) {
-        console.log("message: " + evt.data + '\n');
+        message = JSON.parse(evt.data)
+        heading.setHeading(message.heading);
+        attitude.setRoll(message.pitch);
+        attitude.setPitch(-message.roll);
+
+        variometer.setVario(0); // vertical speed
+        airspeed.setAirSpeed(0);
+        altimeter.setAltitude(223);
+        altimeter.setPressure(1000);
     };
     sock.onerror = function(evt) {
         console.log('error: ' + evt.data + '\n');
