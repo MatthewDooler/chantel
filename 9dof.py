@@ -24,6 +24,7 @@ WS_SERVER_PORT = 8080
 PITCH_WHEN_LEVEL = 0
 ROLL_WHEN_LEVEL = 4
 MAGBIAS = (12.879999999999995, -93.38, -52.900000000000006)
+MIN_SENSOR_READS = 300 # the number of datapoints to ingest into the fusion algorithm before we can rely on it
 
 accelerometer = i2c_adxl345.i2c_adxl345(0)
 accelerometer.setScale(2)
@@ -92,11 +93,9 @@ wsthread = Thread(target = server.serveforever, args = ())
 wsthread.start()
 print("Done")
 
-
-frequency = 70 # Hz
-duration = 60*10 # seconds
-min_sensor_reads = 300
-period = 1.0 / frequency
+sensor_read_frequency = 70 # Hz
+sensor_publish_frequency = 10 # Hz
+sensor_read_period = 1.0 / sensor_read_frequency
 
 def get_attitude():
 	try:
@@ -111,7 +110,7 @@ def get_attitude():
 		return None
 
 print("Ingesting sensor data into fusion algorithm...")
-for i in range(0, min_sensor_reads):
+for i in range(0, MIN_SENSOR_READS):
 	start_time = dt.datetime.now()
 	get_attitude()
 	elapsed = fusion.elapsed_seconds(start_time)
@@ -152,25 +151,25 @@ while True:
 	prop_x_r.setW(prop_x_r_speed)
 	prop_y_l.setW(prop_y_l_speed)
 	prop_y_r.setW(prop_y_r_speed)
-	#if x % frequency == 0:
+	#if x % sensor_read_frequency == 0:
 	#	print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
-	# TODO: maybe only report metrics at 10Hz or something
-	for client in clients:
-		message = {
-			'heading': heading,
-			'pitch': pitch,
-			'roll': roll
-		}
-		client.sendMessage(json.dumps(message))
+	if i % (sensor_read_frequency/sensor_publish_frequency) == 0:
+		for client in clients:
+			message = {
+				'heading': heading,
+				'pitch': pitch,
+				'roll': roll
+			}
+			client.sendMessage(json.dumps(message))
 
 	elapsed = fusion.elapsed_seconds(start_time)
-	if i % frequency == 0:
+	if i % sensor_read_frequency == 0:
 		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
 		#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
 		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°, t = %.0fms, f = %.0fHz" % (round(heading, 0), round(pitch, 0), round(roll, 0), elapsed*1000, round(1.0/elapsed, 0)))
-	if elapsed < period:
-		extra = period - elapsed
+	if elapsed < sensor_read_period:
+		extra = sensor_read_period - elapsed
 		time.sleep(extra)
 
 wsthread.join()
