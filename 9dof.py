@@ -92,21 +92,21 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 	def sendMessageAsync(self, message):
 		self.pending_writes.put(message)
 
-    def handleMessage(self):
-        pass
+	def handleMessage(self):
+		pass
 
-    def handleConnected(self):
-        print(self.address, 'connected')
-        self.connected = True
+	def handleConnected(self):
+		print(self.address, 'connected')
+		self.connected = True
 		self.worker = threading.Thread(target=self.worker_start)
-        self.worker.daemon = True
-        self.worker.start()
-        clients.append(self)
+		self.worker.daemon = True
+		self.worker.start()
+		clients.append(self)
 
-    def handleClose(self):
-        print(self.address, 'closed')
-        self.connected = False
-        clients.remove(self)
+	def handleClose(self):
+		print(self.address, 'closed')
+		self.connected = False
+		clients.remove(self)
 
 print("Starting websocket server...")
 server = SimpleWebSocketServer('', WS_SERVER_PORT, StatReporter)
