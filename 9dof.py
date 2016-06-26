@@ -4,6 +4,7 @@ import datetime as dt
 import time
 import math
 import argparse
+from threading import Thread
 
 from quadcopterPi.motor import motor
 from quadcopterPi.sensor import sensor
@@ -15,6 +16,8 @@ from i2clibraries import i2c_adxl345
 from i2clibraries import i2c_itg3205
 
 from fusion import fusion
+
+from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 
 accelerometer = i2c_adxl345.i2c_adxl345(0)
 accelerometer.setScale(2)
