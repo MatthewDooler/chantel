@@ -81,12 +81,12 @@ class StatReporter(WebSocket): # TODO: this can go in another file
 		self.connected = False
 
 	def worker_start(self):
-        while self.connected:
-        	try:
-	        	message = self.pending_writes.get(True, 10)
-	        	self.sendMessage(message)
-        	except Queue.Empty:
-        		pass
+		while self.connected:
+			try:
+				message = self.pending_writes.get(True, 10)
+				self.sendMessage(message)
+			except Queue.Empty:
+				pass
 		print("StatReporter worker died")
 
 	def sendMessageAsync(self, message):
