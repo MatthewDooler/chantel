@@ -94,8 +94,8 @@ wsthread.start()
 print("Done")
 
 sensor_read_frequency = 70 # Hz
-sensor_publish_frequency = 10 # Hz
 sensor_read_period = 1.0 / sensor_read_frequency
+sensor_publish_frequency = 10 # Hz
 
 def get_attitude():
 	try:
@@ -114,8 +114,8 @@ for i in range(0, MIN_SENSOR_READS):
 	start_time = dt.datetime.now()
 	get_attitude()
 	elapsed = fusion.elapsed_seconds(start_time)
-	if elapsed < period:
-		extra = period - elapsed
+	if elapsed < sensor_read_period:
+		extra = sensor_read_period - elapsed
 		time.sleep(extra)
 print("Done")
 
