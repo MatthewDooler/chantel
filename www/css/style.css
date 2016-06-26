@@ -27,3 +27,11 @@ html, body {
 	font-size: 11px;
 	padding: 7px;
 }
+
+.connected {
+	color: green;
+}
+
+.disconnected {
+	color: red;
+}
