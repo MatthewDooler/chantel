@@ -1,3 +1,7 @@
+WS_SERVER_HOSTNAME = window.location.hostname
+if(WS_SERVER_HOSTNAME == "") {
+    WS_SERVER_HOSTNAME = "fraybentos.heart"
+}
 WS_SERVER_PORT = 8081
 
 $(function() {
@@ -15,18 +19,18 @@ $(function() {
         if(!connected && !connecting) {
             connecting = true
             console.log("connecting")
-            sock = new WebSocket("ws://fraybentos.heart:8081/");
+            sock = new WebSocket("ws://"+WS_SERVER_HOSTNAME+":"+WS_SERVER_PORT.toString()+"/");
             // sock.send(message);
             // sock.close();
             sock.onopen = function(evt) {
                 console.log('open');
-                $("#connection-state").toggleClass("connected", true).toggleClass("disconnected", false).html("Connected")
+                $("#connection-state").toggleClass("connected", true).toggleClass("disconnected", false).html("Connected to " + WS_SERVER_HOSTNAME + ":"+WS_SERVER_PORT.toString())
                 connected = true
                 connecting = false
             };
             sock.onclose = function(evt) {
                 console.log("close\n");
-                $("#connection-state").toggleClass("connected", false).toggleClass("disconnected", true).html("Disconnected")
+                $("#connection-state").toggleClass("connected", false).toggleClass("disconnected", true).html("Disconnected from " + WS_SERVER_HOSTNAME + ":"+WS_SERVER_PORT.toString())
                 connected = false
                 connecting = false
             };
