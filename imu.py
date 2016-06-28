@@ -15,6 +15,7 @@ class SEN10724IMU(object):
 		self.magnetometer = i2c_hmc5883l.i2c_hmc5883l(i2c_port)
 		self.magnetometer.setContinuousMode()
 		self.magnetometer.setDeclination(1,43)  # magnetic declination in degrees west (degrees, minute)
+		print("SEN10724 IMU initialised")
 
 	@property
 	def acceleration(self):

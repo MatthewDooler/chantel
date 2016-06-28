@@ -12,14 +12,12 @@ from quadcopterPi.motor import motor
 from quadcopterPi.sensor import sensor
 from quadcopterPi.loggingQ import setupLogger
 
+from api import APIServer
 from imu import SEN10724IMU
 from imu import FakeIMU
 from ahrs import AHRS
-from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 
-# Config
-WS_SERVER_PORT = 8081
-MIN_SENSOR_READS = 300 # the number of datapoints to ingest into the fusion algorithm before we can rely on it
+api_server = APIServer(port=8081)
 
 #imu = SEN10724IMU()
 imu = FakeIMU()
@@ -34,49 +32,6 @@ for prop in props:
 	prop.start()
 	prop.setW(0)
 time.sleep(1)
-
-clients = []
-class StatReporter(WebSocket): # TODO: this can go in another file
-	#def __init__(self):
-	#	self.pending_writes = queue.Queue()
-	#	self.connected = False
-
-	def worker_start(self):
-		timeout = 30 # seconds
-		while self.connected:
-			try:
-				blocking = True
-				message = self.pending_writes.get(blocking, timeout)
-				self.sendMessage(message)
-			except queue.Empty:
-				pass
-
-	def sendMessageAsync(self, message):
-		self.pending_writes.put(message)
-
-	def handleMessage(self):
-		pass
-
-	def handleConnected(self):
-		print(self.address, 'connected')
-		self.pending_writes = queue.Queue()
-		self.connected = True
-		self.worker = Thread(target=self.worker_start)
-		self.worker.daemon = True
-		self.worker.start()
-		clients.append(self)
-
-	def handleClose(self):
-		print(self.address, 'closed')
-		self.connected = False
-		clients.remove(self)
-
-print("Starting websocket server...")
-server = SimpleWebSocketServer('', WS_SERVER_PORT, StatReporter)
-wsthread = Thread(target = server.serveforever, args = ())
-wsthread.daemon = True
-wsthread.start()
-print("Done")
 
 i = 0
 while True:
@@ -114,7 +69,7 @@ while True:
 		#	print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
 		# TODO: publish these metrics at 10Hz
-		for client in clients:
+		for client in APIServer.clients:
 			message = {
 				'heading': heading,
 				'pitch': pitch,
