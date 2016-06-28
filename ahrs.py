@@ -18,7 +18,7 @@ class AHRS(object):
 		
 		self.update_frequency = 70 # Hz
 		self.update_period = 1.0 / self.update_frequency
-		self.min_updates = 300
+		self.min_updates = 400
 		self.updates = 0
 
 		self.worker = Thread(target=self.worker_start)
