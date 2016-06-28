@@ -1,6 +1,6 @@
 WS_SERVER_HOSTNAME = window.location.hostname
 if(WS_SERVER_HOSTNAME == "") {
-    WS_SERVER_HOSTNAME = "fraybentos.heart"
+    WS_SERVER_HOSTNAME = "localhost"
 }
 WS_SERVER_PORT = 8081
 

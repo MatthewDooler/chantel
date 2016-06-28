@@ -1,5 +1,6 @@
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from threading import Thread
+import queue
 
 class APIServer:
 	clients = []  # TODO: make this an instance variable, by linking clients back to servers (if possible)
@@ -30,6 +31,7 @@ class APIClient(WebSocket):
 			except queue.Empty:
 				pass
 
+	# TODO: this probably isn't needed anymore, and don't want to waste threads on the tiny rpi
 	def sendMessageAsync(self, message):
 		self.pending_writes.put(message)
 
