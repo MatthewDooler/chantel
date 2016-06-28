@@ -17,8 +17,8 @@ from ahrs import AHRS
 
 api_server = APIServer(port=8081)
 
-#imu = SEN10724IMU()
-imu = FakeIMU()
+imu = SEN10724IMU()
+#imu = FakeIMU()
 ahrs = AHRS(imu)
 
 prop_x_l = motor('prop_x_l', 23, simulation=False)
