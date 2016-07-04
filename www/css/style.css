@@ -50,3 +50,17 @@ html, body {
 .instrument.cam .ball {
 	opacity: 0.6;
 }
+
+.throttle {
+}
+
+#throttle-val {
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	margin: 0 0 5px 0;
+}
+
+#throttle-slider {
+	height: 360px;
+}

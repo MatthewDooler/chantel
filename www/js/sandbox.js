@@ -9,7 +9,7 @@ $(function() {
     var connecting = false
     var connected = false
     var cam = $.flightIndicator('#cam', 'cam', {roll:0, pitch:0, heading:0, width:600, height:300, showBox:false});
-    $('#cam').find('div.instrument').css({height : 350, width : 800});
+    $('#cam').find('div.instrument').css({height : 350, width : 820});
     var attitude = $.flightIndicator('#attitude', 'attitude', {roll:0, pitch:0, size:418, showBox:true});
     var heading = $.flightIndicator('#heading', 'heading', {heading:0, size:200, showBox:true});
     var variometer = $.flightIndicator('#variometer', 'variometer', {vario:-5, showBox:true});
@@ -67,6 +67,18 @@ $(function() {
             };
         }
     }, 1000);
+
+    $( "#throttle-slider" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 50,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#throttle-val" ).html( ui.value );
+      }
+    });
+    $( "#throttle-val" ).html( $( "#throttle-slider" ).slider( "value" ) );
 
 });
 

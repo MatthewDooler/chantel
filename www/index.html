@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chantel</title>
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/flightindicators.min.css" />
   </head>
   <body>
@@ -27,6 +30,10 @@
 						<span id="altimeter"></span>
 					</div>
 				</td>
+				<td class="throttle">
+					<div id="throttle-val"></div>
+					<div id="throttle-slider"></div>
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -35,6 +42,7 @@
 	<script src="js/sockjs.min.js"></script>
   	<script src="js/jquery-3.0.0.min.js"></script>
 	<script src="js/jquery.flightindicators.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
   	<!--<script src="js/three.min.js"></script>-->
   	<script src="js/sandbox.js"></script>
   </body>
