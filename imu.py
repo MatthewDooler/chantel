@@ -1,13 +1,12 @@
-from i2clibraries import i2c_hmc5883l
-from i2clibraries import i2c_adxl345
-from i2clibraries import i2c_itg3205
-
 # IMU - Inertial measurement unit
 
 # This interfaces with the SparkFun 9 Degrees of Freedom Sensor Stick
 # https://www.sparkfun.com/products/10724
 class SEN10724IMU(object):
 	def __init__(self):
+		from i2clibraries import i2c_hmc5883l
+		from i2clibraries import i2c_adxl345
+		from i2clibraries import i2c_itg3205
 		i2c_port = 0  # different versions of the pi use different ports
 		self.accelerometer = i2c_adxl345.i2c_adxl345(i2c_port)
 		self.accelerometer.setScale(2)

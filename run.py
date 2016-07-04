@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import sys
 import datetime as dt
 import time
@@ -17,8 +17,8 @@ from ahrs import AHRS
 
 api_server = APIServer(port=8081)
 
-imu = SEN10724IMU()
-#imu = FakeIMU()
+#imu = SEN10724IMU()
+imu = FakeIMU()
 ahrs = AHRS(imu)
 
 prop_x_l = motor('prop_x_l', 23, simulation=False)
@@ -77,11 +77,11 @@ while True:
 				'cam_image_pitch': 0,
 				'cam_image_roll': 0
 			}
-			client.sendMessageAsync(json.dumps(message))
+			client.sendMessage(json.dumps(message))
 
 		#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
 		#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
-		print("heading = %.0f°, pitch = %.0f°, roll = %.0f°" % (round(heading, 0), round(pitch, 0), round(roll, 0)))
+		print("heading = %.0f, pitch = %.0f, roll = %.0f" % (round(heading, 0), round(pitch, 0), round(roll, 0)))
 	time.sleep(1)
 	i = i + 1
 

@@ -37,6 +37,7 @@ $(function() {
                 connecting = false
             };
             sock.onmessage = function(evt) {
+                console.log(evt.data);
                 message = JSON.parse(evt.data);
 
                 headingValue = message.heading;
