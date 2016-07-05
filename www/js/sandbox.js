@@ -68,19 +68,36 @@ $(function() {
         }
     }, 1000);
 
-    $( "#throttle-slider" ).slider({
-      orientation: "vertical",
-      range: "min",
-      min: 0,
-      max: 50,
-      value: 0,
-      slide: function( event, ui ) {
-        $( "#throttle-val" ).html( ui.value );
-      }
-    });
-    $( "#throttle-val" ).html( $( "#throttle-slider" ).slider( "value" ) );
-
 });
 
+var minThrottle = 0
+var maxThrottle = 100
+var desiredThrottleValues = {0:0, 1:0, 2:0, 3:0}
+var actualThrottleValues = {0:0, 1:0, 2:0, 3:0} // TODO: adjust these based on server metrics
 
+$(document).keypress(function(e) {
+    increaseCharacter = 61
+    reduceCharacter = 45
+    switch(e.which) {
+        case increaseCharacter:
+            for (var throttleId in desiredThrottleValues) {
+                changeDesiredThrottle(throttleId, 5)
+            }
+            break
+        case reduceCharacter:
+            for (var throttleId in desiredThrottleValues) {
+                changeDesiredThrottle(throttleId, -5)
+            }
+            break;
+    }
+});
+
+function changeDesiredThrottle(throttleId, increment) {
+    desiredThrottleValue = Math.max(minThrottle, Math.min(maxThrottle, desiredThrottleValues[throttleId]+increment))
+    desiredThrottleValues[throttleId] = desiredThrottleValue
+    var throttleEl = $(".throttle"+throttleId)
+    var offset = ((throttleEl.height()/100.0)*desiredThrottleValue) + 1.5
+    throttleEl.find(".progress-bar .notch").css("bottom", offset)
+    // TODO: send it to the server
+}
 

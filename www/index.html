@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chantel</title>
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/jquery-ui.min.css" rel="stylesheet">
     <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
     <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
@@ -31,8 +32,33 @@
 					</div>
 				</td>
 				<td class="throttle">
-					<div id="throttle-val"></div>
-					<div id="throttle-slider"></div>
+
+					<!-- TODO: increasing throttle should move a little line, then the bars should adjust based on actual speed set by the server -->
+					<div class="throttle0 progress progress-bar-vertical">
+					  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar">
+					  	<div class="notch"></div>
+					  </div>
+
+					</div>
+
+					<div class="throttle1 progress progress-bar-vertical">
+					  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar">
+					  	<div class="notch"></div>
+					  </div>
+					</div>
+
+					<div class="throttle2 progress progress-bar-vertical">
+					  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar">
+					  	<div class="notch"></div>
+					  </div>
+					</div>
+
+					<div class="throttle3 progress progress-bar-vertical">
+					  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar">
+					  	<div class="notch"></div>
+					  </div>
+					</div>
+
 				</td>
 			</tr>
 		</table>
@@ -43,6 +69,7 @@
   	<script src="js/jquery-3.0.0.min.js"></script>
 	<script src="js/jquery.flightindicators.js"></script>
 	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
   	<!--<script src="js/three.min.js"></script>-->
   	<script src="js/sandbox.js"></script>
   </body>
