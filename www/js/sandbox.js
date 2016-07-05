@@ -75,29 +75,75 @@ var maxThrottle = 100
 var desiredThrottleValues = {0:0, 1:0, 2:0, 3:0}
 var actualThrottleValues = {0:0, 1:0, 2:0, 3:0} // TODO: adjust these based on server metrics
 
+var listenToKeyPresses = true
 $(document).keypress(function(e) {
     increaseCharacter = 61
     reduceCharacter = 45
-    switch(e.which) {
-        case increaseCharacter:
-            for (var throttleId in desiredThrottleValues) {
-                changeDesiredThrottle(throttleId, 5)
-            }
-            break
-        case reduceCharacter:
-            for (var throttleId in desiredThrottleValues) {
-                changeDesiredThrottle(throttleId, -5)
-            }
-            break;
+    if(listenToKeyPresses) {
+        switch(e.which) {
+            case increaseCharacter:
+                for (var throttleId in desiredThrottleValues) {
+                    changeDesiredThrottle(throttleId, 5)
+                }
+                break
+            case reduceCharacter:
+                for (var throttleId in desiredThrottleValues) {
+                    changeDesiredThrottle(throttleId, -5)
+                }
+                break;
+        }
     }
 });
 
 function changeDesiredThrottle(throttleId, increment) {
-    desiredThrottleValue = Math.max(minThrottle, Math.min(maxThrottle, desiredThrottleValues[throttleId]+increment))
-    desiredThrottleValues[throttleId] = desiredThrottleValue
-    var throttleEl = $(".throttle"+throttleId)
-    var offset = ((throttleEl.height()/100.0)*desiredThrottleValue) + 1.5
-    throttleEl.find(".progress-bar .notch").css("bottom", offset)
+    desiredThrottleValues[throttleId] = Math.max(minThrottle, Math.min(maxThrottle, desiredThrottleValues[throttleId]+increment))
+    renderDesiredThrottle(throttleId, desiredThrottleValues[throttleId])
     // TODO: send it to the server
 }
 
+function renderDesiredThrottle(throttleId, value) {
+    var throttleEl = $(".throttle"+throttleId)
+    var barEl = throttleEl.find(".progress-bar")
+    var offset = desiredThrottleTickOffset(throttleEl.height(), barEl.height(), value)
+    var notchEl = barEl.find(".notch")
+    listenToKeyPresses = false
+    notchEl.animate({bottom: offset}, 100, function() {
+        listenToKeyPresses = true
+    })
+}
+
+function setActualThrottle(throttleId, value) {
+    actualThrottleValues[throttleId] = value
+    var throttleEl = $(".throttle"+throttleId)
+    var originalHeight = throttleEl.find(".progress-bar").height()
+    var newHeight = ((throttleEl.height()/100.0)*value)
+    var heightChange = newHeight - originalHeight
+    if(heightChange >= 1 || heightChange <= -1) {
+        throttleEl.find(".progress-bar").animate(
+            {
+                height: newHeight
+            }, {
+                duration: 300,
+                progress: function(animation, progress, remainingMs) {
+                    var barElHeight = $(animation.elem).height()
+                    var offset = desiredThrottleTickOffset(throttleEl.height(), barElHeight, desiredThrottleValues[throttleId])
+                    throttleEl.find(".progress-bar .notch").css("bottom", offset)
+                }
+            }
+        )
+    }
+}
+
+function desiredThrottleTickOffset(throttleElHeight, barElHeight, value) {
+    return (((throttleElHeight/100.0)*value) + 1.5) - barElHeight
+}
+
+function simple_setActualThrottle(throttleId, value) {
+    actualThrottleValues[throttleId] = value
+    var throttleEl = $(".throttle"+throttleId)
+    var newHeight = ((throttleEl.height()/100.0)*value)
+    throttleEl.find(".progress-bar").css("height", newHeight)
+    var offset = (((throttleEl.height()/100.0)*desiredThrottleValues[throttleId]) + 1.5) - newHeight
+    throttleEl.find(".progress-bar .notch").css("bottom", offset)
+    
+}
