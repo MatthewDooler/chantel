@@ -75,7 +75,13 @@ while True:
 				'cam_image_uri': 'img/8FnqQTs.jpg',
 				'cam_image_heading': -140,
 				'cam_image_pitch': 0,
-				'cam_image_roll': 0
+				'cam_image_roll': 0,
+				'throttle': {
+					'0': prop_x_l_speed,
+					'1': prop_x_r_speed,
+					'2': prop_y_l_speed,
+					'3': prop_y_r_speed
+				}
 			}
 			client.sendMessage(json.dumps(message))
 

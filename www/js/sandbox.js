@@ -60,6 +60,10 @@ $(function() {
                 airspeed.setAirSpeed(0);
                 altimeter.setAltitude(223);
                 altimeter.setPressure(1000);
+
+                for (var throttleId in message.throttle) {
+                    setActualThrottle(throttleId, message.throttle[throttleId])
+                }
             };
             sock.onerror = function(evt) {
                 console.log('error: ' + evt.data + '\n');
