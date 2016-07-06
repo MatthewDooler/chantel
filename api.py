@@ -1,11 +1,12 @@
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from threading import Thread
+import json
 
 class APIServer:
-	clients = []  # TODO: make this an instance variable, by linking clients back to servers (if possible)
 	def __init__(self, port):
-		websocket_server = SimpleWebSocketServer('', port, APIClient)
-		t = Thread(target = websocket_server.serveforever, args = ())
+		self.websocket_server = SimpleWebSocketServer('', port, APIClient)
+		self.websocket_server.clients = []
+		t = Thread(target = self.websocket_server.serveforever, args = ())
 		t.daemon = True
 		t.start()
 		print("API server initialised")
@@ -13,11 +14,12 @@ class APIServer:
 class APIClient(WebSocket):
 	def handleConnected(self):
 		print(self.address, 'connected')
-		APIServer.clients.append(self)
+		self.server.clients.append(self)
 
 	def handleMessage(self):
-		pass
+		message = json.loads(self.data)
+		print(message)
 
 	def handleClose(self):
 		print(self.address, 'closed')
-		APIServer.clients.remove(self)
+		self.server.clients.remove(self)

@@ -77,7 +77,7 @@ $(function() {
 var minThrottle = 0
 var maxThrottle = 100
 var desiredThrottleValues = {0:0, 1:0, 2:0, 3:0}
-var actualThrottleValues = {0:0, 1:0, 2:0, 3:0} // TODO: adjust these based on server metrics
+var actualThrottleValues = {0:0, 1:0, 2:0, 3:0}
 
 var listenToKeyPresses = true
 $(document).keypress(function(e) {
@@ -96,13 +96,13 @@ $(document).keypress(function(e) {
                 }
                 break;
         }
+        sock.send(JSON.stringify(desiredThrottleValues))
     }
 });
 
 function changeDesiredThrottle(throttleId, increment) {
     desiredThrottleValues[throttleId] = Math.max(minThrottle, Math.min(maxThrottle, desiredThrottleValues[throttleId]+increment))
     renderDesiredThrottle(throttleId, desiredThrottleValues[throttleId])
-    // TODO: send it to the server
 }
 
 function renderDesiredThrottle(throttleId, value) {

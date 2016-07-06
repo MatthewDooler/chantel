@@ -67,7 +67,7 @@ while True:
 		#	print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 
 		# TODO: publish these metrics at 10Hz
-		for client in APIServer.clients:
+		for client in api_server.websocket_server.clients:
 			message = {
 				'heading': heading,
 				'pitch': pitch,
