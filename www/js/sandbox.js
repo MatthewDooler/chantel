@@ -116,6 +116,7 @@ function renderDesiredThrottle(throttleId, value) {
     })
 }
 
+var actualThrottleAnimating = [false, false, false, false]
 function setActualThrottle(throttleId, value) {
     actualThrottleValues[throttleId] = value
     var throttleEl = $(".throttle"+throttleId)
@@ -123,18 +124,24 @@ function setActualThrottle(throttleId, value) {
     var newHeight = ((throttleEl.height()/100.0)*value)
     var heightChange = newHeight - originalHeight
     if(heightChange >= 1 || heightChange <= -1) {
-        throttleEl.find(".progress-bar").animate(
-            {
-                height: newHeight
-            }, {
-                duration: 300,
-                progress: function(animation, progress, remainingMs) {
-                    var barElHeight = $(animation.elem).height()
-                    var offset = desiredThrottleTickOffset(throttleEl.height(), barElHeight, desiredThrottleValues[throttleId])
-                    throttleEl.find(".progress-bar .notch").css("bottom", offset)
+        if(!actualThrottleAnimating[throttleId]) {
+            actualThrottleAnimating[throttleId] = true
+            throttleEl.find(".progress-bar").animate(
+                {
+                    height: newHeight
+                }, {
+                    duration: 300,
+                    progress: function(animation, progress, remainingMs) {
+                        var barElHeight = $(animation.elem).height()
+                        var offset = desiredThrottleTickOffset(throttleEl.height(), barElHeight, desiredThrottleValues[throttleId])
+                        throttleEl.find(".progress-bar .notch").css("bottom", offset)
+                    },
+                    done: function() {
+                        actualThrottleAnimating[throttleId] = false
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
