@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
-lt --port 8080 --subdomain chantel &
-lt --port 8081 --subdomain chantelws &
+/usr/local/bin/lt --port 8080 --subdomain chantel &
+/usr/local/bin/lt --port 8081 --subdomain chantelws &

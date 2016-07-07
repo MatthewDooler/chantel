@@ -1,2 +1,2 @@
 #!/bin/bash
-git pull
+/usr/bin/git pull
