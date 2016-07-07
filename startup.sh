@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-at -f ./bind.sh now + 1 minutes
+at -f $1 now + 2 minutes
