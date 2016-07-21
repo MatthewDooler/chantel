@@ -87,12 +87,12 @@ $(document).keypress(function(e) {
         switch(e.which) {
             case increaseCharacter:
                 for (var throttleId in desiredThrottleValues) {
-                    changeDesiredThrottle(throttleId, 5)
+                    changeDesiredThrottle(throttleId, 2)
                 }
                 break
             case reduceCharacter:
                 for (var throttleId in desiredThrottleValues) {
-                    changeDesiredThrottle(throttleId, -5)
+                    changeDesiredThrottle(throttleId, -2)
                 }
                 break;
         }
