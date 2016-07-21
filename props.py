@@ -8,7 +8,7 @@ import datetime as dt
 class Props:
 	def __init__(self, ahrs):
 		self.ahrs = ahrs
-		self.max_throttle = 100 # TODO: Danger! Danger! Set Me To 50!
+		self.max_throttle = 60
 		self.min_throttle = 0
 		self.desired_throttle_prop_x_l = 0
 		self.desired_throttle_prop_x_r = 0
