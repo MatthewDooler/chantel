@@ -59,19 +59,8 @@ class Props:
 		if self.heading is not None and self.pitch is not None and self.roll is not None:
 			yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 			
-			if self.pitch <= -1:
-				pitch_offset = 2
-			elif self.pitch >= 1:
-				pitch_offset = -2
-			else:
-				pitch_offset = 0
-
-			if self.roll <= -1:
-				roll_offset = 2
-			elif self.roll >= 1:
-				roll_offset = -2
-			else:
-				roll_offset = 0
+			pitch_offset = self._prOffset(self.pitch)
+			roll_offset = self._prOffset(self.roll)
 
 			self.throttle_prop_x_l = self._normaliseThrottle(self.desired_throttle_prop_x_l - pitch_offset + yaw_offset)
 			self.throttle_prop_x_r = self._normaliseThrottle(self.desired_throttle_prop_x_r + pitch_offset + yaw_offset)
@@ -81,6 +70,10 @@ class Props:
 			self.prop_x_r.setW(self.throttle_prop_x_r)
 			self.prop_y_l.setW(self.throttle_prop_y_l)
 			self.prop_y_r.setW(self.throttle_prop_y_r)
+
+	def _prOffset(self, pr):
+		max_offset = 5
+		return max(min(-(pr / 10.0), max_offset), -max_offset)
 
 	def _normaliseThrottle(self, throttle):
 		return max(min(throttle, self.max_throttle), self.min_throttle)
