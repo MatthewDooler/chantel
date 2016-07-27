@@ -19,8 +19,13 @@ class APIClient(WebSocket):
 		self.server.api_server.clients.append(self)
 
 	def handleMessage(self):
-		throttle = json.loads(self.data)
-		self.server.api_server.props.setDesiredThrottle(throttle["0"], throttle["1"], throttle["2"], throttle["3"])
+		message = json.loads(self.data)
+		if "throttle" in message:
+			throttle = message["throttle"]
+			self.server.api_server.props.setDesiredThrottle(throttle["0"], throttle["1"], throttle["2"], throttle["3"])
+		elif "ping" in message:
+			ping = message["ping"]
+			self.sendMessage(json.dumps({"ping": ping}))
 
 	def handleClose(self):
 		print(self.address, 'closed')

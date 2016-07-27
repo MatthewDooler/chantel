@@ -4,10 +4,16 @@ if(WS_SERVER_HOSTNAME == "") {
 }
 WS_SERVER_PORT = 8081
 
+var pingInterval= 5000
+var pingRequest = Date.now()
+var pingResponse = pingRequest
+var lastPingResponse = pingResponse
+var connecting = false
+var connected = false
+var sock = null
+
 $(function() {
     
-    var connecting = false
-    var connected = false
     var cam = $.flightIndicator('#cam', 'cam', {roll:0, pitch:0, heading:0, width:600, height:300, showBox:false});
     $('#cam').find('div.instrument').css({height : 350, width : 820});
     var attitude = $.flightIndicator('#attitude', 'attitude', {roll:0, pitch:0, size:418, showBox:true});
@@ -40,29 +46,36 @@ $(function() {
                 console.log(evt.data);
                 message = JSON.parse(evt.data);
 
-                headingValue = message.heading;
-                pitchValue = message.roll;
-                rollValue = -message.pitch;
-                camImageUri = "img/8FnqQTs.jpg"
+                if(typeof message.ping !== 'undefined') {
+                    pingRequest = message.ping
+                    pingResponse = Date.now()
+                    lastPingResponse = pingResponse
+                    updateLatency()
+                } else {
+                    headingValue = message.heading;
+                    pitchValue = message.roll;
+                    rollValue = -message.pitch;
+                    camImageUri = "img/8FnqQTs.jpg"
 
-                cam.setCamHeading(headingValue);
-                cam.setCamRoll(rollValue);
-                cam.setCamPitch(pitchValue);
+                    cam.setCamHeading(headingValue);
+                    cam.setCamRoll(rollValue);
+                    cam.setCamPitch(pitchValue);
 
-                // TODO: only call when we actually want to update the image (otherwise it will be too much traffic)
-                cam.setCamImage(message.cam_image_pitch, message.cam_image_roll, message.cam_image_heading, message.cam_image_uri);
+                    // TODO: only call when we actually want to update the image (otherwise it will be too much traffic)
+                    cam.setCamImage(message.cam_image_pitch, message.cam_image_roll, message.cam_image_heading, message.cam_image_uri);
 
-                heading.setHeading(headingValue);
-                attitude.setRoll(pitchValue);
-                attitude.setPitch(pitchValue);
+                    heading.setHeading(headingValue);
+                    attitude.setRoll(pitchValue);
+                    attitude.setPitch(pitchValue);
 
-                variometer.setVario(0); // vertical speed
-                airspeed.setAirSpeed(0);
-                altimeter.setAltitude(223);
-                altimeter.setPressure(1000);
+                    variometer.setVario(0); // vertical speed
+                    airspeed.setAirSpeed(0);
+                    altimeter.setAltitude(223);
+                    altimeter.setPressure(1000);
 
-                for (var throttleId in message.throttle) {
-                    setActualThrottle(throttleId, message.throttle[throttleId])
+                    for (var throttleId in message.throttle) {
+                        setActualThrottle(throttleId, message.throttle[throttleId])
+                    }
                 }
             };
             sock.onerror = function(evt) {
@@ -72,7 +85,28 @@ $(function() {
         }
     }, 1000);
 
+    // Send ping messages to the server to calculate latency
+    setInterval(ping, pingInterval)
+    setInterval(updateLatency, 500);
+
 });
+
+function ping() {
+    if(connected && !connecting) {
+        sock.send(JSON.stringify({"ping": Date.now()}));
+    }
+}
+
+function updateLatency() {
+    pingLatency = (pingResponse - pingRequest) / 2
+    bestCaseEstimatedLatency = (Date.now() - lastPingResponse - pingInterval) / 2 // this will normally be a bit better/lower than the true latency, but if it's higher that's a problem
+    latency = Math.max(pingLatency, bestCaseEstimatedLatency)
+    if(latency < 1000) {
+        $(".latency-value").html(Math.round(latency)+" ms")
+    } else if(latency < 60000) {
+        $(".latency-value").html(Math.round(latency/1000)+" s")
+    }
+}
 
 var minThrottle = 0
 var maxThrottle = 60
@@ -96,7 +130,7 @@ $(document).keypress(function(e) {
                 }
                 break;
         }
-        sock.send(JSON.stringify(desiredThrottleValues))
+        sock.send(JSON.stringify({"throttle": desiredThrottleValues}))
     }
 });
 
