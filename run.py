@@ -12,8 +12,8 @@ from imu import FakeIMU
 from ahrs import AHRS
 from props import Props
 
-#imu = SEN10724IMU()
-imu = FakeIMU()
+imu = SEN10724IMU()
+#imu = FakeIMU()
 ahrs = AHRS(imu)
 
 props = Props(ahrs)

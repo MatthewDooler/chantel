@@ -29,8 +29,10 @@ class APIClient(WebSocket):
 			ping = message["ping"]
 			self.sendMessage(json.dumps({"ping": ping}))
 		elif "restart" in message:
+			print("Restarting")
 			restart()
 		elif "shutdown" in message:
+			print("Shutting down")
 			shutdown()
 
 	def handleClose(self):
@@ -38,8 +40,9 @@ class APIClient(WebSocket):
 		self.server.api_server.clients.remove(self)
 
 def restart():
-    python = sys.executable
-    os.execl(python, python, *sys.argv)
+	#python = sys.executable
+	#os.execl(python, python, *sys.argv)
+	os.system('kill %d' % os.getpid())
 
 def shutdown():
-    os.system("shutdown now -h")
+	os.system("shutdown now -h")
