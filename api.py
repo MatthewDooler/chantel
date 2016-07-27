@@ -1,6 +1,8 @@
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from threading import Thread
 import json
+import os
+import sys
 
 class APIServer:
 	def __init__(self, port, props):
@@ -26,7 +28,18 @@ class APIClient(WebSocket):
 		elif "ping" in message:
 			ping = message["ping"]
 			self.sendMessage(json.dumps({"ping": ping}))
+		elif "restart" in message:
+			restart()
+		elif "shutdown" in message:
+			restart()
 
 	def handleClose(self):
 		print(self.address, 'closed')
 		self.server.api_server.clients.remove(self)
+
+def restart():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
+def shutdown():
+    os.system("shutdown now -h")

@@ -97,6 +97,18 @@ function ping() {
     }
 }
 
+function restart() {
+    if(connected && !connecting) {
+        sock.send(JSON.stringify({"restart": []}));
+    }
+}
+
+function restart() {
+    if(connected && !connecting) {
+        sock.send(JSON.stringify({"shutdown": []}));
+    }
+}
+
 function updateLatency() {
     pingLatency = (pingResponse - pingRequest) / 2
     bestCaseEstimatedLatency = (Date.now() - lastPingResponse - pingInterval) / 2 // this will normally be a bit better/lower than the true latency, but if it's higher that's a problem
