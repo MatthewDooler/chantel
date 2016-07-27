@@ -103,7 +103,7 @@ function restart() {
     }
 }
 
-function restart() {
+function shutdown() {
     if(connected && !connecting) {
         sock.send(JSON.stringify({"shutdown": []}));
     }

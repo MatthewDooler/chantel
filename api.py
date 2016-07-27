@@ -31,7 +31,7 @@ class APIClient(WebSocket):
 		elif "restart" in message:
 			restart()
 		elif "shutdown" in message:
-			restart()
+			shutdown()
 
 	def handleClose(self):
 		print(self.address, 'closed')
