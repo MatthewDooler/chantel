@@ -62,7 +62,7 @@ $(function() {
                     cam.setCamPitch(pitchValue);
 
                     // TODO: only call when we actually want to update the image (otherwise it will be too much traffic)
-                    cam.setCamImage(message.cam_image_pitch, message.cam_image_roll, message.cam_image_heading, message.cam_image_uri);
+                    // cam.setCamImage(message.cam_image_pitch, message.cam_image_roll, message.cam_image_heading, message.cam_image_uri);
 
                     heading.setHeading(headingValue);
                     attitude.setRoll(pitchValue);
