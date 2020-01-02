@@ -12,8 +12,10 @@ from imu import FakeIMU
 from ahrs import AHRS
 from props import Props
 
-imu = SEN10724IMU()
-#imu = FakeIMU()
+if len(sys.argv) >= 2 and sys.argv[1] == "local":
+	imu = FakeIMU()
+else:
+	imu = SEN10724IMU()
 ahrs = AHRS(imu)
 
 props = Props(ahrs)

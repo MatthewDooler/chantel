@@ -2,3 +2,5 @@ __pycache__
 www/img/8FnqQTs.jpg
 *.pyc
 .DS_Store
+.vscode
+venv
