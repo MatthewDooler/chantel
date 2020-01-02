@@ -69,10 +69,14 @@ class Props:
 		if self.actual_attitude.available() and self.desired_attitude.available():
 			yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 			
-			# pitch_offset = self._prOffset(self.pitch)
-			pitch_offset = 0
-			# roll_offset = self._prOffset(self.roll)
-			roll_offset = 0
+			pitch_offset_degrees = self.desired_attitude.pitch - self.actual_attitude.pitch
+			pitch_offset = self._prOffset(pitch_offset_degrees)
+			# pitch_offset = 0
+	
+			roll_offset_degrees = self.desired_attitude.roll - self.actual_attitude.roll
+			roll_offset = self._prOffset(roll_offset_degrees)
+			print(roll_offset)
+			# roll_offset = 0
 
 			# TODO Part 1 - Aim to quickly reach intended attitude (which is initially <heading>,0,0)
 			# TODO Part 2 maybe somewhere else - Stay at this attitude until destination is reached (e.g., key no longer held), then stabalise
@@ -87,9 +91,9 @@ class Props:
 			self.prop_y_l.setW(self.throttle_prop_y_l)
 			self.prop_y_r.setW(self.throttle_prop_y_r)
 
-	def _prOffset(self, pr):
+	def _prOffset(self, degrees):
 		max_offset = 5
-		return max(min(-(pr / 10.0), max_offset), -max_offset)
+		return max(min(-(degrees / 10.0), max_offset), -max_offset)
 
 	def _normaliseThrottle(self, throttle):
 		return max(min(throttle, self.max_throttle), self.min_throttle)
