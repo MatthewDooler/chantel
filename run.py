@@ -33,7 +33,7 @@ while True:
 			#print("props = %.0f, %.0f, %.0f, %.0f" % (prop_x_l_speed, prop_x_r_speed, prop_y_l_speed, prop_y_r_speed))
 			#print("accel = %s, gyro = %s, mag = %s" % (accelerometer_values, gyroscope_values, magnetometer_values))
 			#print("%s, %s, %s, %s, %s, %s, %s, %s, %s" % (accelerometer_values[0], accelerometer_values[1], accelerometer_values[2], gyroscope_values[0], gyroscope_values[1], gyroscope_values[2], magnetometer_values[0], magnetometer_values[1], magnetometer_values[2]))
-			print("heading = %.0f, pitch = %.0f, roll = %.0f" % (round(heading, 0), round(pitch, 0), round(roll, 0)))
+			print("heading = %.0f, pitch = %.0f, roll = %.0f, rpm_1 = %d, rpm_2 = %d, rpm_3 = %d, rpm_4 = %d" % (round(heading, 0), round(pitch, 0), round(roll, 0), props.throttle_prop_x_l, props.throttle_prop_x_r, props.throttle_prop_y_l, props.throttle_prop_y_r))
 
 		for client in api_server.clients:
 			message = {

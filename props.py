@@ -74,10 +74,14 @@ class Props:
 			# roll_offset = self._prOffset(self.roll)
 			roll_offset = 0
 
+			# TODO Part 1 - Aim to quickly reach intended attitude (which is initially <heading>,0,0)
+			# TODO Part 2 maybe somewhere else - Stay at this attitude until destination is reached (e.g., key no longer held), then stabalise
+
 			self.throttle_prop_x_l = self._normaliseThrottle(self.desired_throttle_prop_x_l - pitch_offset + yaw_offset)
 			self.throttle_prop_x_r = self._normaliseThrottle(self.desired_throttle_prop_x_r + pitch_offset + yaw_offset)
 			self.throttle_prop_y_l = self._normaliseThrottle(self.desired_throttle_prop_y_l - roll_offset - yaw_offset)
 			self.throttle_prop_y_r = self._normaliseThrottle(self.desired_throttle_prop_y_r + roll_offset - yaw_offset)
+
 			self.prop_x_l.setW(self.throttle_prop_x_l)
 			self.prop_x_r.setW(self.throttle_prop_x_r)
 			self.prop_y_l.setW(self.throttle_prop_y_l)
