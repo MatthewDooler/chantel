@@ -93,7 +93,7 @@ class Props:
 
 	def _prOffset(self, degrees):
 		max_offset = 3
-		return max(min(-(degrees / 3.0), max_offset), -max_offset)
+		return max(min(-(degrees / 5.0), max_offset), -max_offset)
 
 	def _normaliseThrottle(self, throttle):
 		return max(min(throttle, self.max_throttle), self.min_throttle)
