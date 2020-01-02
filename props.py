@@ -70,8 +70,8 @@ class Props:
 			yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 			
 			pitch_offset_degrees = self.desired_attitude.pitch - self.actual_attitude.pitch
-			# pitch_offset = self._prOffset(pitch_offset_degrees)
-			pitch_offset = 0
+			pitch_offset = self._prOffset(pitch_offset_degrees)
+			# pitch_offset = 0
 	
 			roll_offset_degrees = self.desired_attitude.roll - self.actual_attitude.roll
 			roll_offset = self._prOffset(roll_offset_degrees)
@@ -93,7 +93,7 @@ class Props:
 
 	def _prOffset(self, degrees):
 		max_offset = 5
-		return max(min(-(degrees / 2.0), max_offset), -max_offset)
+		return max(min(-(degrees / 3.0), max_offset), -max_offset)
 
 	def _normaliseThrottle(self, throttle):
 		return max(min(throttle, self.max_throttle), self.min_throttle)
