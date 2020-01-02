@@ -75,7 +75,7 @@ class Props:
 	
 			roll_offset_degrees = self.desired_attitude.roll - self.actual_attitude.roll
 			roll_offset = self._prOffset(roll_offset_degrees)
-			print(roll_offset)
+			# print(roll_offset)
 			# roll_offset = 0
 
 			# TODO Part 1 - Aim to quickly reach intended attitude (which is initially <heading>,0,0)
