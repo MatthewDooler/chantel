@@ -25,6 +25,9 @@ class APIClient(WebSocket):
 		if "throttle" in message:
 			throttle = message["throttle"]
 			self.server.api_server.props.setDesiredThrottle(throttle["0"], throttle["1"], throttle["2"], throttle["3"])
+		elif "attitude" in message:
+			attitude = message["attitude"]
+			self.server.api_server.props.setDesiredAttitude(attitude["heading"], attitude["pitch"], attitude["roll"])
 		elif "ping" in message:
 			ping = message["ping"]
 			self.sendMessage(json.dumps({"ping": ping}))

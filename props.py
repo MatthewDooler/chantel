@@ -1,6 +1,7 @@
 from quadcopterPi.motor import motor
 from quadcopterPi.sensor import sensor
 from quadcopterPi.loggingQ import setupLogger
+from ahrs import Attitude
 import time
 from threading import Thread
 import datetime as dt
@@ -18,9 +19,8 @@ class Props:
 		self.throttle_prop_x_r = 0
 		self.throttle_prop_y_l = 0
 		self.throttle_prop_y_r = 0
-		self.heading = None
-		self.pitch = None
-		self.roll = None
+		self.actual_attitude = None
+		self.desired_attitude = Attitude()
 		self.update_frequency = 10 # Hz
 		self.update_period = 1.0 / self.update_frequency
 		self.worker = Thread(target=self.worker_start)
@@ -38,9 +38,19 @@ class Props:
 			prop.setW(0)
 		time.sleep(1) # all hell breaks loose if we don't wait before setting a new throttle
 		print("Props initialised")
+		self.actual_attitude = self.ahrs.attitude
 		while True:
-			self._setAttitude(self.ahrs.heading, self.ahrs.pitch, self.ahrs.roll)
+			if not self.desired_attitude.available():
+				self.setDefaultDesiredAttitude()
+			self._updateThrottle()
 			time.sleep(self.update_period)
+
+	def setDefaultDesiredAttitude(self):
+		# Default to current heading but a stable pitch and roll
+		# e.g., takeoff behaviour from a slope would be to get level but stay facing the same direction
+		self.desired_attitude.heading = self.ahrs.attitude.heading
+		self.desired_attitude.pitch = 0
+		self.desired_attitude.roll = 0
 
 	def setDesiredThrottle(self, prop_x_l, prop_x_r, prop_y_l, prop_y_r):
 		self.desired_throttle_prop_x_l = prop_x_l
@@ -49,14 +59,14 @@ class Props:
 		self.desired_throttle_prop_y_r = prop_y_r
 		self._updateThrottle()
 
-	def _setAttitude(self, heading, pitch, roll):
-		self.heading = heading
-		self.pitch = pitch
-		self.roll = roll
+	def setDesiredAttitude(self, heading, pitch, roll):
+		self.desired_attitude.heading = heading
+		self.desired_attitude.pitch = pitch
+		self.desired_attitude.roll = roll
 		self._updateThrottle()
 
 	def _updateThrottle(self):
-		if self.heading is not None and self.pitch is not None and self.roll is not None:
+		if self.actual_attitude.available() and self.desired_attitude.available():
 			yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 			
 			# pitch_offset = self._prOffset(self.pitch)

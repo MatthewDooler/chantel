@@ -7,9 +7,7 @@ import time
 class AHRS(object):
 	def __init__(self, imu):
 		self.imu = imu
-		self.heading = None
-		self.pitch = None
-		self.roll = None
+		self.attitude = Attitude()
 		self.fusion = fusion.Fusion()
 
 		self.fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
@@ -44,9 +42,9 @@ class AHRS(object):
 			self.fusion.update(acceleration, rotation, magfield)
 			# wait until fusion algorithm has enough readings before setting attitude
 			if self.updates >= self.min_updates:
-				self.heading = self.fusion.heading
-				self.pitch = self.fusion.pitch
-				self.roll = self.fusion.roll
+				self.attitude.heading = self.fusion.heading
+				self.attitude.pitch = self.fusion.pitch
+				self.attitude.roll = self.fusion.roll
 			self.updates = self.updates + 1
 
 	def calibrate(self):
@@ -64,3 +62,12 @@ class AHRS(object):
 		else:
 			return False
 
+
+class Attitude(object):
+	def __init__(self, heading=None, pitch=None, roll=None):
+		self.heading = heading
+		self.pitch = pitch
+		self.roll = roll
+	
+	def available(self):
+		return self.heading is not None and self.pitch is not None and self.roll is not None
