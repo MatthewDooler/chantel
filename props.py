@@ -70,8 +70,8 @@ class Props:
 			yaw_offset = 0 # TODO: make sure positive goes CW for sanity purposes
 			
 			pitch_offset_degrees = self.desired_attitude.pitch - self.actual_attitude.pitch
-			pitch_offset = self._prOffset(pitch_offset_degrees)
-			# pitch_offset = 0
+			# pitch_offset = self._prOffset(pitch_offset_degrees)
+			pitch_offset = 0
 	
 			roll_offset_degrees = self.desired_attitude.roll - self.actual_attitude.roll
 			roll_offset = self._prOffset(roll_offset_degrees)
