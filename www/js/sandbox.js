@@ -120,7 +120,7 @@ function updateLatency() {
     }
 }
 
-var minThrottle = 0
+var minThrottle = 4
 var maxThrottle = 100
 var desiredThrottleValues = {0:0, 1:0, 2:0, 3:0}
 var actualThrottleValues = {0:0, 1:0, 2:0, 3:0}
