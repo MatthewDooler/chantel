@@ -55,11 +55,11 @@ $(function() {
                     headingValue = message.heading;
                     pitchValue = message.roll;
                     rollValue = -message.pitch;
-                    camImageUri = "img/8FnqQTs.jpg"
+                    //camImageUri = "img/8FnqQTs.jpg"
 
-                    cam.setCamHeading(headingValue);
-                    cam.setCamRoll(rollValue);
-                    cam.setCamPitch(pitchValue);
+                    //cam.setCamHeading(headingValue);
+                    //cam.setCamRoll(rollValue);
+                    //cam.setCamPitch(pitchValue);
 
                     // TODO: only call when we actually want to update the image (otherwise it will be too much traffic)
                     // cam.setCamImage(message.cam_image_pitch, message.cam_image_roll, message.cam_image_heading, message.cam_image_uri);

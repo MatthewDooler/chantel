@@ -37,13 +37,13 @@ while True:
 
 		for client in api_server.clients:
 			message = {
-				'heading': heading,
-				'pitch': pitch,
-				'roll': roll,
-				'cam_image_uri': 'img/8FnqQTs.jpg',
-				'cam_image_heading': -140,
-				'cam_image_pitch': 0,
-				'cam_image_roll': 0,
+				'heading': round(heading, 2),
+				'pitch': round(pitch, 2),
+				'roll': round(roll, 2),
+				#'cam_image_uri': 'img/8FnqQTs.jpg',
+				#'cam_image_heading': -140,
+				#'cam_image_pitch': 0,
+				#'cam_image_roll': 0,
 				'throttle': {
 					'0': props.throttle_prop_x_l,
 					'1': props.throttle_prop_x_r,
