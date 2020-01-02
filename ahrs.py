@@ -11,7 +11,7 @@ class AHRS(object):
 		self.fusion = fusion.Fusion()
 
 		self.fusion.magbias = (12.879999999999995, -93.38, -52.900000000000006)
-		self.fusion.pitch_when_level = 4.5
+		self.fusion.pitch_when_level = -4.5
 		self.fusion.roll_when_level = 5.7  # TODO: this is awful just level the sensor or fully calibrate everything
 		
 		self.update_frequency = 70 # Hz
