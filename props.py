@@ -92,7 +92,7 @@ class Props:
 			self.prop_y_r.setW(self.throttle_prop_y_r)
 
 	def _prOffset(self, degrees):
-		max_offset = 2
+		max_offset = 1
 		return max(min(-(degrees / 10.0), max_offset), -max_offset)
 
 	def _normaliseThrottle(self, throttle):
