@@ -23,7 +23,7 @@ publish_frequency = 5 # Hz
 publish_period = 1.0 / publish_frequency
 i = 0
 while True:
-	(heading, pitch, roll) = (ahrs.heading, ahrs.pitch, ahrs.roll)
+	(heading, pitch, roll) = (ahrs.attitude.heading, ahrs.attitude.pitch, ahrs.attitude.roll)
 	if heading is not None and pitch is not None and roll is not None:
 		if i % publish_frequency == 0:
 			#print("t = %s, accel = %s, gyro = %s, mag = %s, heading = %.0f, pitch = %.0f, roll = %.0f" % (start_time, accelerometer_values, gyroscope_values, magnetometer_values, round(heading, 0), round(pitch, 0), round(roll, 0)))
