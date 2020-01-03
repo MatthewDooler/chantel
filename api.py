@@ -48,4 +48,4 @@ def restart():
 	os.system('kill %d' % os.getpid())
 
 def shutdown():
-	os.system("shutdown now -h") # TODO: doesn't work on rpi, `shutdown` not available in sh shell
+	os.system("shutdown -h NOW") # TODO: doesn't work on rpi, `shutdown` not available in sh shell
